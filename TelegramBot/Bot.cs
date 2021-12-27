@@ -48,11 +48,22 @@ namespace TelegramBot
             var messageText = update.Message.Text;
 
             Console.WriteLine($"Пришло сообщение из чата {chatId} с текстом: '{messageText}'");
-
+                        
             Message sentMessage = await botClient.SendTextMessageAsync(
                 chatId: chatId,
-                text: "Доброго дня, чем могу помочь?",
+                text: "Доброго дня, вывожу весь список актуальных заявок.",
                 cancellationToken: cancellationToken);
+
+            var dbcontent = GetEmployees.GetEmpolyee();
+
+            foreach (var employee in dbcontent)
+            {
+                    sentMessage = await botClient.SendTextMessageAsync(
+                    chatId: chatId,
+                    text: employee.Content,
+                    cancellationToken: cancellationToken);
+
+            }
 
             //Вывести список возможных команд
 
