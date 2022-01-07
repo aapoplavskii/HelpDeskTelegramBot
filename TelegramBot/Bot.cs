@@ -22,7 +22,7 @@ namespace TelegramBot
                 AllowedUpdates = { }
             };
 
-
+            
             bot.StartReceiving(
                     HandleUpdateAsync,
                     HandleErrorAsync,
@@ -32,6 +32,7 @@ namespace TelegramBot
 
         }
 
+        
         private static Task HandleErrorAsync(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)
         {
             //проинформировать пользователя

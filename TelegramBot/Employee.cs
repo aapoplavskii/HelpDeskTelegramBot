@@ -1,9 +1,4 @@
 ﻿using LinqToDB.Mapping;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -17,12 +12,20 @@ namespace TelegramBot
         [Column(Name = "FIO")]
         public string Surname { get; set; }
 
+        public Position Position { get; set; }
+
+        public Department Department { get; set; }
+
+        public Building Building { get; set; }
+
+        public string Room { get; set; }
+
         [Column(Name = "ContactTelephone")]
         public string ContactTelephone { get; set; }
 
         [Column(Name = "Content")]
         public string Content { get; set; }
 
-       
+
     }
 }
