@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class TypeEmployee
+    public class PositionEmployee
     {
-        public int Id { get; set; }
+       public string Name { get; set; }    
 
-        public string Name { get; set; }
-
-       
     }
 }

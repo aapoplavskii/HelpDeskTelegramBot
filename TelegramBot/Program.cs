@@ -8,7 +8,7 @@ namespace TelegramBot
         static void Main(string[] args)
         {
 
-            Bot.InitBot();
+            //Bot.InitBot();
             Console.ReadLine();
 
         }

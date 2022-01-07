@@ -8,9 +8,7 @@ namespace TelegramBot
 {
     public class ApplicationState
     {
-        public int ID { get; set; }
-        public int EmployeeID { get; set; }
-        public string State { get; set; }
+        public string Name { get; set; }
 
     }
 }

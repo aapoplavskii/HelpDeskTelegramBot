@@ -55,13 +55,13 @@ namespace TelegramBot
                 text: "Доброго дня, вывожу весь список актуальных заявок.",
                 cancellationToken: cancellationToken);
 
-            var dbcontent = GetEmployees.GetEmpolyee();
+            var dbcontent = GetApplications.GetApplication();
 
-            foreach (var employee in dbcontent)
+            foreach (var application in dbcontent)
             {
                     sentMessage = await botClient.SendTextMessageAsync(
                     chatId: chatId,
-                    text: employee.Content,
+                    text: application.Content,
                     cancellationToken: cancellationToken);
 
             }
