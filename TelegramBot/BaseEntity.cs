@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class ApplicationState: BaseEntity
+    public class BaseEntity
     {
-        public string Name { get; set; }
+        public virtual int Id { get; set; }
 
     }
 }

@@ -2,22 +2,27 @@
 
 namespace TelegramBot
 {
-    public class Employee
+    public class Employee: BaseEntity
     {
-        public int Id { get; set; }
-
         public string FIO { get; set; }
 
         public PositionEmployee Position { get; set; }
 
         public Department Department { get; set; }
 
-        public Employee(int id, string fio)
+        public Employee(int id, string fio, PositionEmployee position, Department department)
         {
 
             this.Id = id;
             this.FIO = fio;
+            this.Position = position;
+            this.Department = department;
         
+        }
+
+        public override string ToString()
+        {
+            return FIO + "(" + Position + "-" + Department + ")";
         }
 
 
