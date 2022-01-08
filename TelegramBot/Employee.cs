@@ -12,6 +12,14 @@ namespace TelegramBot
 
         public Department Department { get; set; }
 
+        public Employee(int id, string fio)
+        {
+
+            this.Id = id;
+            this.FIO = fio;
+        
+        }
+
 
 
     }
