@@ -10,5 +10,11 @@ namespace TelegramBot
     {
         public string Name { get; set; }
 
+        public ApplicationState(int id, string name)
+        { 
+            this.Id = id;
+            this.Name = name;
+        }
+
     }
 }

@@ -17,6 +17,26 @@ namespace TelegramBot
         public ApplicationState state { get; set; }
         public bool IsDelete { get; set; }
 
+        private int index = 0;
+
+        public Application(TypeApplication typeApplication, Employee employee, Building building,
+                            string room, string phone, string content, ApplicationState applicationState, bool isdelete)
+        {
+
+            index++; 
+
+            this.Id = index;
+            this.TypeApplication = typeApplication; 
+            this.Employee = employee;
+            this.Building = building;
+            this.Room = room;
+            this.ContactTelephone = phone;
+            this.Content = content;
+            this.state = applicationState;
+            this.IsDelete = isdelete;
+        
+        }
+
 
     }
 }

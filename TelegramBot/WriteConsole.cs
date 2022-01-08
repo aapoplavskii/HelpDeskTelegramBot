@@ -57,7 +57,10 @@ namespace TelegramBot
                 {
                     Console.WriteLine($"Вы работаете от имени - {employee}");
 
-                    WriteMenu(repository);
+                    var exit = WriteMenu(repository, employee);
+
+                    if (exit)
+                        break;
                 }
 
                
@@ -66,8 +69,10 @@ namespace TelegramBot
 
         }
 
-        private static void WriteMenu(Repository repository)
+        private static bool WriteMenu(Repository repository, Employee employee)
         {
+            bool exit = false;
+
             while (true)
             {
                 Console.WriteLine("Для подачи новой заявки нажмите 1");
@@ -81,7 +86,8 @@ namespace TelegramBot
                 {
                     case '1':
 
-                        SubmitNewApplication(repository);
+                        var newapplication = SubmitNewApplication(repository, employee);
+                        Console.WriteLine($"Заявка под номером - {newapplication.Id} успешно создана.");
 
                         break;
                     case '2':
@@ -97,10 +103,12 @@ namespace TelegramBot
 
                 if (otvet.KeyChar == '3')
                 {
+                    exit = true;
                     break;
                 }
 
             }
+            return exit;
 
 
         }
@@ -110,7 +118,7 @@ namespace TelegramBot
             throw new NotImplementedException();
         }
 
-        private static void SubmitNewApplication(Repository repository)
+        private static Application SubmitNewApplication(Repository repository, Employee employee)
         {
             TypeApplication typeApplication = null;
 
@@ -158,7 +166,67 @@ namespace TelegramBot
                 }
 
             }
+            
 
+            Building building = null;
+            while (true)
+            {
+
+                Console.WriteLine("Выберите корпус");
+                Console.WriteLine("1. 2.1");
+                Console.WriteLine("2. 2.2");
+                Console.WriteLine("3. 3");
+                Console.WriteLine("4. 5");
+                Console.WriteLine("5. 7");
+
+
+                var otvet = Console.ReadKey();
+                Console.WriteLine();
+
+                switch (otvet.KeyChar)
+                {
+                    case '1':
+                        building = repository.FindBuilding(1);
+                        break;
+                    case '2':
+                        building = repository.FindBuilding(2);
+                        break;
+                    case '3':
+                        building = repository.FindBuilding(3);
+                        break;
+                    case '4':
+                        building = repository.FindBuilding(4);
+                        break;
+                    case '5':
+                        building = repository.FindBuilding(5);
+                        break;
+                    default:
+                        Console.WriteLine("Необходимо выбрать из списка!");
+                        break;
+
+                }
+
+                if (building != null)
+                {
+                    Console.WriteLine();
+                    break;
+                }
+
+            }
+
+            Console.WriteLine("");
+            Console.Write("Введите номер кабинета:");
+            var room  = Console.ReadLine();
+            
+            Console.WriteLine("");
+            Console.Write("Введите конт. тел.:");
+            var phone = Console.ReadLine();
+
+            Console.WriteLine("");
+            Console.Write("Введите описание заявки:");
+            var content = Console.ReadLine();
+
+            return new Application(typeApplication, employee, building, room, phone, content, repository.FindStateApplication(1), false);
 
         }
 
@@ -265,7 +333,7 @@ namespace TelegramBot
 
                     }
 
-                if (positionEmployee != null)
+                if (department != null)
                 {
                     Console.WriteLine();
                     break;

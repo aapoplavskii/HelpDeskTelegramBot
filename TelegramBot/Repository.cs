@@ -9,6 +9,8 @@ namespace TelegramBot
     public class Repository
     {
         public List<Application> applications  = new List<Application>();
+        
+        public List<ApplicationState> applicationstates = new List<ApplicationState>();
 
         public List<Employee> employees = new List<Employee>();
 
@@ -19,10 +21,6 @@ namespace TelegramBot
         public List<Department> departments = new List<Department>();
 
         public List<Building> buildings = new List<Building>();
-
-        //создать дженерик методы по добавлению и поиску по листам
-
-        //или вообще создать дженерик класс
 
         public Repository()
         { 
@@ -35,7 +33,7 @@ namespace TelegramBot
 
             positions.Add(new PositionEmployee(1, "Директор"));
             positions.Add(new PositionEmployee(2, "Врач"));
-            positions.Add(new PositionEmployee(3, "Сотруник администрации"));
+            positions.Add(new PositionEmployee(3, "Сотрудник администрации"));
             positions.Add(new PositionEmployee(4, "Научный сотрудник"));
             positions.Add(new PositionEmployee(5, "Медицинский инженер"));
 
@@ -51,10 +49,12 @@ namespace TelegramBot
             buildings.Add(new Building(4, "5"));
             buildings.Add(new Building(5, "7"));
 
-
+            applicationstates.Add(new ApplicationState(1, "подана"));
+            applicationstates.Add(new ApplicationState(2, "в работе"));
+            applicationstates.Add(new ApplicationState(3, "исполнена"));
 
         }
-
+        //подумать - сделать дженерик метод
         public Employee FindFIOSotr(string sotr)
         {
             return employees.FirstOrDefault(s => s.FIO.Contains(sotr));
@@ -78,6 +78,11 @@ namespace TelegramBot
         public Building FindBuilding(int id)
         {
             return buildings.FirstOrDefault(s => s.Id == id);
+        }
+
+        public ApplicationState FindStateApplication(int id)
+        {
+            return applicationstates.FirstOrDefault(s => s.Id == id);
         }
 
     }
