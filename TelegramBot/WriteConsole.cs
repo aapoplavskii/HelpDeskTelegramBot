@@ -9,7 +9,7 @@ namespace TelegramBot
     public static class WriteConsole
     {
 
-        public static void WriteData(Repository repository)
+        public static void WriteData(IRepository repository)
         {
             Employee employee;
 
@@ -69,7 +69,7 @@ namespace TelegramBot
 
         }
 
-        private static bool WriteMenu(Repository repository, Employee employee)
+        private static bool WriteMenu(IRepository repository, Employee employee)
         {
             bool exit = false;
 
@@ -113,12 +113,12 @@ namespace TelegramBot
 
         }
 
-        private static void ViewApplication(Repository repository)
+        private static void ViewApplication(IRepository repository)
         {
             throw new NotImplementedException();
         }
 
-        private static Application SubmitNewApplication(Repository repository, Employee employee)
+        private static Application SubmitNewApplication(IRepository repository, Employee employee)
         {
             TypeApplication typeApplication = null;
 
@@ -230,7 +230,7 @@ namespace TelegramBot
 
         }
 
-        private static Employee SubmitNewEmployee(Repository repository)
+        private static Employee SubmitNewEmployee(IRepository repository)
         {
             int idnewsotr = 0;
 

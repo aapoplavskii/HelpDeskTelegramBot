@@ -4,7 +4,7 @@ namespace TelegramBot
 {
     internal class Program
     {
-        public static Repository repository = new Repository();
+        public static IRepository repository = new Repository();
         static void Main(string[] args)
         {
             //Bot.InitBot();

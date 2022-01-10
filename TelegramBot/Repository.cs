@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class Repository
+    public class Repository: IRepository
     {
-        public List<Application> applications  = new List<Application>();
+        public List<Application> applications { get; set;} = new List<Application>();
         
-        public List<ApplicationState> applicationstates = new List<ApplicationState>();
+        public List<ApplicationState> applicationstates { get; set; } = new List<ApplicationState>();
 
-        public List<Employee> employees = new List<Employee>();
+        public List<Employee> employees { get; set; } = new List<Employee>();
 
-        public List<TypeApplication> typeApplications = new List<TypeApplication>();
+        public List<TypeApplication> typeApplications { get; set; } = new List<TypeApplication>();
 
-        public List<PositionEmployee> positions = new List<PositionEmployee>();
+        public List<PositionEmployee> positions { get; set; } = new List<PositionEmployee>();
 
-        public List<Department> departments = new List<Department>();
+        public List<Department> departments { get; set; } = new List<Department>();
 
-        public List<Building> buildings = new List<Building>();
+        public List<Building> buildings { get; set; } = new List<Building>();
 
         public Repository()
         { 
