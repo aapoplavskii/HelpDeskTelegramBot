@@ -55,35 +55,40 @@ namespace TelegramBot
 
         }
         //подумать - сделать дженерик метод
+
+        public T FindItem<T>(int id, List<T> list) where T : BaseEntity
+        {
+            return list.FirstOrDefault(s => s.Id == id);
+        }
         public Employee FindFIOSotr(string sotr)
         {
             return employees.FirstOrDefault(s => s.FIO.Contains(sotr));
         }
 
-        public TypeApplication FindTypeApplication(int id)
-        {
-            return typeApplications.FirstOrDefault(s => s.Id == id);
-        }
+        //public TypeApplication FindTypeApplication(int id)
+        //{
+        //    return typeApplications.FirstOrDefault(s => s.Id == id);
+        //}
 
-        public PositionEmployee FindPositionEmployee(int id)
-        {
-            return positions.FirstOrDefault(s => s.Id == id);
-        }
+        //public PositionEmployee FindPositionEmployee(int id)
+        //{
+        //    return positions.FirstOrDefault(s => s.Id == id);
+        //}
 
-        public Department FindDepartament(int id)
-        {
-            return departments.FirstOrDefault(s => s.Id == id);
-        }
+        //public Department FindDepartament(int id)
+        //{
+        //    return departments.FirstOrDefault(s => s.Id == id);
+        //}
 
-        public Building FindBuilding(int id)
-        {
-            return buildings.FirstOrDefault(s => s.Id == id);
-        }
+        //public Building FindBuilding(int id)
+        //{
+        //    return buildings.FirstOrDefault(s => s.Id == id);
+        //}
 
-        public ApplicationState FindStateApplication(int id)
-        {
-            return applicationstates.FirstOrDefault(s => s.Id == id);
-        }
+        //public ApplicationState FindStateApplication(int id)
+        //{
+        //    return applicationstates.FirstOrDefault(s => s.Id == id);
+        //}
 
     }
 }

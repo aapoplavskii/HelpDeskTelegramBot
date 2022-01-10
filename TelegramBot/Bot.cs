@@ -28,8 +28,6 @@ namespace TelegramBot
                     HandleErrorAsync,
                     receiverOptions,
                     cancellationToken: cts.Token);
-
-
         }
 
         

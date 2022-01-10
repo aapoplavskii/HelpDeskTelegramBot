@@ -139,19 +139,19 @@ namespace TelegramBot
                 switch (otvet.KeyChar)
                 {
                     case '1':
-                        typeApplication = repository.FindTypeApplication(1);
+                        typeApplication = repository.FindItem(1, repository.typeApplications);
                         break;
                     case '2':
-                        typeApplication = repository.FindTypeApplication(2);
+                        typeApplication = repository.FindItem(2, repository.typeApplications);
                         break;
                     case '3':
-                        typeApplication = repository.FindTypeApplication(3);
+                        typeApplication = repository.FindItem(3, repository.typeApplications);
                         break;
                     case '4':
-                        typeApplication = repository.FindTypeApplication(4);
+                        typeApplication = repository.FindItem(4, repository.typeApplications);
                         break;
                     case '5':
-                        typeApplication = repository.FindTypeApplication(5);
+                        typeApplication = repository.FindItem(5, repository.typeApplications);
                         break;
                     default:
                         Console.WriteLine("Необходимо выбрать из списка!");
@@ -186,19 +186,19 @@ namespace TelegramBot
                 switch (otvet.KeyChar)
                 {
                     case '1':
-                        building = repository.FindBuilding(1);
+                        building = repository.FindItem(1, repository.buildings);
                         break;
                     case '2':
-                        building = repository.FindBuilding(2);
+                        building = repository.FindItem(2, repository.buildings);
                         break;
                     case '3':
-                        building = repository.FindBuilding(3);
+                        building = repository.FindItem(3, repository.buildings);
                         break;
                     case '4':
-                        building = repository.FindBuilding(4);
+                        building = repository.FindItem(4, repository.buildings);
                         break;
                     case '5':
-                        building = repository.FindBuilding(5);
+                        building = repository.FindItem(5, repository.buildings);
                         break;
                     default:
                         Console.WriteLine("Необходимо выбрать из списка!");
@@ -226,7 +226,7 @@ namespace TelegramBot
             Console.Write("Введите описание заявки:");
             var content = Console.ReadLine();
 
-            return new Application(typeApplication, employee, building, room, phone, content, repository.FindStateApplication(1), false);
+            return new Application(typeApplication, employee, building, room, phone, content, repository.FindItem(1, repository.applicationstates), false);
 
         }
 
@@ -267,19 +267,19 @@ namespace TelegramBot
                 switch (otvetP.KeyChar)
                 {
                     case '1':
-                        positionEmployee = repository.FindPositionEmployee(1);
+                        positionEmployee = repository.FindItem(1, repository.positions);
                         break;
                     case '2':
-                        positionEmployee = repository.FindPositionEmployee(2);
+                        positionEmployee = repository.FindItem(2, repository.positions);
                         break;
                     case '3':
-                        positionEmployee = repository.FindPositionEmployee(3);
+                        positionEmployee = repository.FindItem(3, repository.positions);
                         break;
                     case '4':
-                        positionEmployee = repository.FindPositionEmployee(4);
+                        positionEmployee = repository.FindItem(4, repository.positions);
                         break;
                     case '5':
-                        positionEmployee = repository.FindPositionEmployee(5);
+                        positionEmployee = repository.FindItem(5, repository.positions);
                         break;
                     default:
                         Console.WriteLine("Необходимо выбрать из списка!");
@@ -313,19 +313,19 @@ namespace TelegramBot
                     switch (otvetD.KeyChar)
                     {
                         case '1':
-                            department = repository.FindDepartament(1);
+                            department = repository.FindItem(1, repository.departments);
                             break;
                         case '2':
-                            department = repository.FindDepartament(2);
+                            department = repository.FindItem(2, repository.departments);
                             break;
                         case '3':
-                            department = repository.FindDepartament(3);
+                            department = repository.FindItem(3, repository.departments);
                             break;
                         case '4':
-                            department = repository.FindDepartament(4);
+                            department = repository.FindItem(4, repository.departments);
                             break;
                         case '5':
-                            department = repository.FindDepartament(5);
+                            department = repository.FindItem(5, repository.departments);
                             break;
                         default:
                             Console.WriteLine("Необходимо выбрать из списка!");
