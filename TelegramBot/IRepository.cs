@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace TelegramBot
 {
     public interface IRepository
-    {       
-        public List<Application> applications { get; set; }
+    {
+        public List<Application> applications { get; set; } 
 
         public List<ApplicationState> applicationstates { get; set; }
 
@@ -18,9 +18,8 @@ namespace TelegramBot
 
         public List<PositionEmployee> positions { get; set; }
 
-        public List<Department> departments { get; set; }
-
-        public List<Building> buildings { get; set; }
+        public List<Department> departments { get; set; } 
+        public List<Building> buildings { get; set; } 
 
         public T FindItem<T>(int id, List<T> list) where T : BaseEntity;
 

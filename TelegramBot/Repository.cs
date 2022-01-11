@@ -23,8 +23,8 @@ namespace TelegramBot
         public List<Building> buildings { get; set; } = new List<Building>();
 
         public Repository()
-        { 
-                        
+        {
+                      
             typeApplications.Add(new TypeApplication(1, "Ремонт ПК/принтера"));
             typeApplications.Add(new TypeApplication(2, "Замена картриджа"));
             typeApplications.Add(new TypeApplication(3, "Проблемы с МИС"));
@@ -52,6 +52,10 @@ namespace TelegramBot
             applicationstates.Add(new ApplicationState(1, "подана"));
             applicationstates.Add(new ApplicationState(2, "в работе"));
             applicationstates.Add(new ApplicationState(3, "исполнена"));
+
+            employees.Add(new Employee(1, "Гусев", positions[0], departments[0]));
+            employees.Add(new Employee(2, "Ягур", positions[4], departments[4]));
+            //employees.Add(new Employee(3, "Поплавский", positions[1], departments[2]));
 
         }
         //подумать - сделать дженерик метод
