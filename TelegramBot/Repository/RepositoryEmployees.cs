@@ -31,19 +31,44 @@ namespace TelegramBot
         public void UpdateFIOEmployee(long chatID, int state, string fio)
         {
             var employee = FindItemChatID(chatID);
-
-            employee.FIO = fio;
-            employee.State = state;
+            if (employee != null)
+            {
+                employee.FIO = fio;
+                employee.State = state;
+            }
 
         }
         public void UpdatePositionEmployee(long chatID, int state, PositionEmployee position)
         {
             var employee = FindItemChatID(chatID);
 
-            employee.Position = position;
-            employee.State = state;
+            if (employee != null)
+            {
+                employee.Position = position;
+                employee.State = state;
+            }
 
+        }
+        public void UpdateDepartmentEmployee(long chatID, int state, Department department)
+        {
+            var employee = FindItemChatID(chatID);
 
+            if (employee != null)
+            {
+                employee.Department = department;
+                employee.State = state;
+            }
+
+        }
+
+        public void UpdateIsExecutorEmployee(long chatID, int state, bool isexecutor)
+        {
+            var employee = FindItemChatID(chatID);
+            if (employee != null)
+            {
+                employee.IsExecutor = isexecutor;
+                employee.State = state;
+            }
         }
     }
 }

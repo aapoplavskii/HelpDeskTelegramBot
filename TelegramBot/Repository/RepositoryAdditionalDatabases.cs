@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class RepositoryPositions
+    public class RepositoryAdditionalDatabases<T> where T : BaseEntity
     {
-        private List<PositionEmployee> _positionEmployees = new List<PositionEmployee>();
+   
+        private List<T> _listitems = new List<T>();
 
-        public RepositoryPositions()
-        {
-            _positionEmployees.Add(new PositionEmployee(1, "Медицинский сотрудник"));
-            _positionEmployees.Add(new PositionEmployee(2, "Сотрудник администрации"));
-            _positionEmployees.Add(new PositionEmployee(3, "Научный сотрудник"));
-            _positionEmployees.Add(new PositionEmployee(4, "Медицинский инженер"));
-
-
+        public void AddItem(T item)
+        { 
+            _listitems.Add(item);   
+        
         }
 
-        public PositionEmployee FindItem(int id) => _positionEmployees.FirstOrDefault(s => s.Id == id);
+        public T FindItem(int id) => _listitems.FirstOrDefault(s => s.Id == id);
 
     }
 }

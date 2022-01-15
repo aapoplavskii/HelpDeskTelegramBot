@@ -14,9 +14,14 @@ namespace TelegramBot
             throw new NotImplementedException();
         }
 
-        public static Application SubmitNewApplication()
+        public static void SubmitNewApplication()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("заявка");
+        }
+
+        public static void ViewMyApplication()
+        {
+            Console.WriteLine("заявка просмотр");
         }
     }
 }

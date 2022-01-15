@@ -11,12 +11,12 @@ namespace TelegramBot
         public Department Department { get; set; }
 
         public long Chat_ID   { get; set; }
-
-        public string Phone_number { get; set; }
-
+        
         public int State { get; set; }
 
         private int index = 1;
+
+        public bool IsExecutor { get; set; }
 
         public Employee(long chatID)
         { 

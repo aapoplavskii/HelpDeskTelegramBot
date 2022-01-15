@@ -17,6 +17,11 @@ namespace TelegramBot
             
         }
 
+        public override string ToString()
+        { 
+            return Name;
+        }
+
        
     }
 }
