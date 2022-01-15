@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class Repository: IRepository
+    public class Repository
     {
         public List<Application> applications { get; set;} = new List<Application>();
         

@@ -10,19 +10,23 @@ namespace TelegramBot
 
         public Department Department { get; set; }
 
-        public string Chat_ID   { get; set; }
+        public long Chat_ID   { get; set; }
 
         public string Phone_number { get; set; }
 
-        public Employee(int id, string fio, PositionEmployee position, Department department)
-        {
+        public int State { get; set; }
 
-            this.Id = id;
-            this.FIO = fio;
-            this.Position = position;
-            this.Department = department;
-                    
+        private int index = 1;
+
+        public Employee(long chatID)
+        { 
+           Chat_ID = chatID;
+           Id = index++;
+           State = 0;
+        
         }
+
+        
 
         public override string ToString()
         {

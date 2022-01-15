@@ -4,13 +4,16 @@ namespace TelegramBot
 {
     public class Program
     {
-        public static IRepository repository = new Repository();
+        
+        public static RepositoryEmployees RepositoryEmployees = new RepositoryEmployees();
+        public static RepositoryPositions RepositoryPositions = new RepositoryPositions(); 
         static void Main(string[] args)
         {
-            Bot.InitBot();
+            var bot = new Bot();
+            bot.InitBot();
 
             //WriteConsole.WriteData(repository);
-            Console.ReadLine();
+            
 
         }
 
