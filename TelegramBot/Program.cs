@@ -4,7 +4,10 @@
     {
 
         public static RepositoryEmployees RepositoryEmployees = new();
+        
         public static ApplicationRepository RepositoryApplications = new();
+
+        public static ApplicationActionRepository RepositoryApplicationActions = new();
 
         public static RepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabases<PositionEmployee>();
 
@@ -13,6 +16,8 @@
         public static RepositoryAdditionalDatabases<Building> RepositoryBuildings = new RepositoryAdditionalDatabases<Building>();
 
         public static RepositoryAdditionalDatabases<TypeApplication> RepositoryTypeApplication = new RepositoryAdditionalDatabases<TypeApplication>();
+       
+        public static RepositoryAdditionalDatabases<ApplicationState> RepositoryApplicationState = new RepositoryAdditionalDatabases<ApplicationState>();
 
         static void Main(string[] args)
         {
@@ -53,6 +58,11 @@
             RepositoryTypeApplication.AddItem(new TypeApplication(2, "Проблемы с сетью"));
             RepositoryTypeApplication.AddItem(new TypeApplication(3, "Проблемы с МИС"));
             RepositoryTypeApplication.AddItem(new TypeApplication(4, "Просто спросить/прочее"));
+
+            RepositoryApplicationState.AddItem(new ApplicationState(1, "подана"));
+            RepositoryApplicationState.AddItem(new ApplicationState(2, "взята в работу"));
+            RepositoryApplicationState.AddItem(new ApplicationState(3, "отклонена"));
+            RepositoryApplicationState.AddItem(new ApplicationState(4, "исполнена"));
 
 
         }

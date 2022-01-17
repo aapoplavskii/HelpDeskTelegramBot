@@ -18,8 +18,7 @@ namespace TelegramBot
         public bool IsDelete { get; set; }
 
         private int index = 0;
-
-        public DateTime DateCreateApp {get; set;}
+              
 
         public int statewrite { get; set; }
 

@@ -23,5 +23,40 @@ namespace TelegramBot
             return newapp;
         
         }
+
+
+        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int statewrite)
+        {
+            app.TypeApplication = typeApplication; 
+            app.statewrite = statewrite;
+
+        }
+        public void UpdateBuildingApp(Application app, Building building, int statewrite)
+        {
+            app.Building = building;
+            app.statewrite = statewrite;
+
+        }
+
+        public void UpdateRoomApp(Application app, string room, int statewrite)
+        {
+            app.Room = room;
+            app.statewrite = statewrite;
+
+        }
+
+        public void UpdatePhoneApp(Application app, string phone, int statewrite)
+        {
+            app.ContactTelephone = phone;
+            app.statewrite = statewrite;
+
+        }
+
+        public void UpdateContentApp(Application app, string content, int statewrite)
+        {
+            app.Content = content;
+            app.statewrite = statewrite;
+
+        }
     }
 }
