@@ -4,6 +4,7 @@
     {
 
         public static RepositoryEmployees RepositoryEmployees = new();
+        public static ApplicationRepository RepositoryApplications = new();
 
         public static RepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabases<PositionEmployee>();
 

@@ -54,6 +54,7 @@ namespace TelegramBot
         {
             PositionEmployee position;
             Department department;
+            Employee ouremployee;
             //Building building;
 
             switch (update.Type)
@@ -61,7 +62,7 @@ namespace TelegramBot
 
                 case UpdateType.CallbackQuery:
 
-                    var ouremployee = Program.RepositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
+                    ouremployee = Program.RepositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
 
                     switch (update.CallbackQuery.Data)
                     {
@@ -168,6 +169,25 @@ namespace TelegramBot
                     break;
 
                 case UpdateType.Message:
+
+                    
+                    var chatId = update.Message.Chat.Id;
+
+                    ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
+
+                    if (ouremployee == null)
+                    {
+
+                        Program.RepositoryEmployees.AddNewEmployee(chatId);
+                        ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
+                        
+                    }
+
+                    var state = ouremployee.State;
+
+                    if (state != 5)                    
+                    await GetStateUser(ouremployee, botClient, cancellationToken, chatId, Program.RepositoryEmployees, update);
+
                     await HandleMessage(update, cancellationToken, botClient);
                     break;
 
@@ -190,19 +210,10 @@ namespace TelegramBot
 
             var messageText = update.Message.Text;
 
-
-
             var ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
 
-            if (ouremployee == null)
-            {
-
-                Program.RepositoryEmployees.AddNewEmployee(chatId);
-                ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
-                await GetStateUser(ouremployee, botClient, cancellationToken, chatId, Program.RepositoryEmployees, update);
-
-            }
-
+            
+            
             switch (messageText)
 
             {
@@ -213,23 +224,17 @@ namespace TelegramBot
                     break;
                 case "Подать новую заявку":
                     {
-                        if (ouremployee == null || ouremployee.State != 5)
-                        {
-                            await GetStateUser(ouremployee, botClient, cancellationToken, chatId, Program.RepositoryEmployees, update);
-                            break;
-                        }
-                        Command.SubmitNewApplication();
+
+                        var newapp = Program.RepositoryApplications.AddNewApp(ouremployee);
+
+                        await GetStateApp(newapp, ouremployee, botClient, cancellationToken, chatId, Program.RepositoryApplications, update);
 
                         break;
                     }
                 case "Посмотреть состояние своих заявок":
                 {
-                        if (ouremployee == null || ouremployee.State != 5)
-                        {
-                            await GetStateUser(ouremployee, botClient, cancellationToken, chatId, Program.RepositoryEmployees, update);
-                            break;
-                        }
-                        Command.ViewMyApplication();
+                      
+                        
 
                     break;
                 }
@@ -243,6 +248,11 @@ namespace TelegramBot
 
         }
 
+        private async Task GetStateApp(Application application, Employee ouremployee, ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, ApplicationRepository repositoryApplications, Update update)
+        {
+            var stateapp =  
+        }
+
         private async Task GetStateUser(Employee ouremployee, ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, RepositoryEmployees repositoryEmployees, Update update)
         {
             var stateuser = ouremployee.State;
@@ -252,7 +262,7 @@ namespace TelegramBot
                 case 0:
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
-                                text: "Вы не идентифицированы! Для регистрации введите ФИО!",
+                                text: "Для регистрации введите ФИО!",
                                 cancellationToken: cancellationToken);
                     repositoryEmployees.ChangeState(ouremployee, 1);
                     break;

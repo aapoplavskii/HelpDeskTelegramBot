@@ -25,9 +25,7 @@ namespace TelegramBot
            State = 0;
         
         }
-
         
-
         public override string ToString()
         {
             return FIO + "(" + Position + "-" + Department + ")";
