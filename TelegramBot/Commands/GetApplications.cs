@@ -1,26 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class GetApplications
+    public static class GetApplications
     {
-        public static List<Application> GetApplication()
+        public static List<Application> FindAll(long chatid)
         {
-            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
-            {
-                 
-               
-                var table = db.GetTable<Application>();
-                var list = table.ToList();
-                return list;
-                               
 
-            }
-
-
+            var listapp = from application in Program.RepositoryApplications.Applications
+                                join employee in Program.RepositoryEmployees.Employees on application.EmployeeID equals employee.Id
+                                join applicationaction in Program.RepositoryApplicationActions.ApplicationsAction on application.Id equals applicationaction.AppID
+                                where employee.Id == chatid && applicationaction.AppState == 1
+                                select application;
+            
+            return listapp.ToList();
 
         }
-        
+
     }
 }

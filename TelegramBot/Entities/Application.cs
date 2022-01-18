@@ -10,11 +10,11 @@ namespace TelegramBot
     {
         public TypeApplication TypeApplication { get; set; }
         public Employee Employee { get; set; }
+        public int EmployeeID { get; set; }
         public Building Building { get; set; }
         public string Room { get; set; }
         public string ContactTelephone { get; set; }
         public string Content { get; set; }
-        public ApplicationState State { get; set; }
         public bool IsDelete { get; set; }
 
         private int index = 0;
@@ -31,6 +31,11 @@ namespace TelegramBot
             IsDelete = true;
 
         
+        }
+
+        public override string ToString()
+        {
+            return "№ - " + Id + ", тип - " + TypeApplication + ",\n текст - " + Content;
         }
 
 

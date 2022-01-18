@@ -8,55 +8,46 @@ namespace TelegramBot
 {
     public class ApplicationRepository : IApplicationRepository
     {
-        private List<Application> _applications { get; set; } = new List<Application>();
+        public List<Application> Applications { get; set; } = new List<Application>();
 
         public Application FindItem(int id)
         {
-            return _applications.FirstOrDefault(s => s.Id == id);
+            return Applications.FirstOrDefault(s => s.Id == id);
         }
+                
 
         public Application AddNewApp(Employee employee)
         {
             var newapp = new Application(employee);
-            _applications.Add(newapp);
+            Applications.Add(newapp);
 
             return newapp;
         
         }
 
-
-        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int statewrite)
+        public void ChangeState(Application application, int state)
         {
-            app.TypeApplication = typeApplication; 
-            app.statewrite = statewrite;
-
+            application.statewrite = state;
         }
-        public void UpdateBuildingApp(Application app, Building building, int statewrite)
+        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int state)
+        {
+            app.TypeApplication = typeApplication;
+            app.statewrite = state;    
+            
+        }
+        public void UpdateBuildingApp(Application app, Building building, int state)
         {
             app.Building = building;
-            app.statewrite = statewrite;
+            app.statewrite = state;
 
         }
 
-        public void UpdateRoomApp(Application app, string room, int statewrite)
-        {
-            app.Room = room;
-            app.statewrite = statewrite;
+        public void UpdateRoomApp(Application app, string room) => app.Room = room;
+       
+        public void UpdatePhoneApp(Application app, string phone) => app.ContactTelephone = phone;
+        
 
-        }
-
-        public void UpdatePhoneApp(Application app, string phone, int statewrite)
-        {
-            app.ContactTelephone = phone;
-            app.statewrite = statewrite;
-
-        }
-
-        public void UpdateContentApp(Application app, string content, int statewrite)
-        {
-            app.Content = content;
-            app.statewrite = statewrite;
-
-        }
+        public void UpdateContentApp(Application app, string content) => app.Content = content;
+        
     }
 }

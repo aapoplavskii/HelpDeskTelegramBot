@@ -14,7 +14,7 @@ namespace TelegramBot
     public class Bot
     {
         private TelegramBotClient bot;
-        
+
         private Dictionary<long, UserStates> _clientStates = new Dictionary<long, UserStates>();
 
         private Application _newApp;
@@ -62,7 +62,7 @@ namespace TelegramBot
             Employee ouremployee;
             Building building;
             TypeApplication typeApplication;
-            
+
             switch (update.Type)
             {
 
@@ -72,13 +72,13 @@ namespace TelegramBot
 
                     switch (update.CallbackQuery.Data)
                     {
-                            
+
 
                         case "/медицина":
 
                             position = Program.RepositoryPositions.FindItem(1);
-                            
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 3, position);
+
+                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 2, position);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -86,7 +86,7 @@ namespace TelegramBot
 
                             position = Program.RepositoryPositions.FindItem(2);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 3, position);
+                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 2, position);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -94,7 +94,7 @@ namespace TelegramBot
 
                             position = Program.RepositoryPositions.FindItem(3);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 3, position);
+                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 2, position);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -102,8 +102,8 @@ namespace TelegramBot
 
                             position = Program.RepositoryPositions.FindItem(4);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 3, position);
-                            await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, ""); 
+                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, 2, position);
+                            await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
 
@@ -111,7 +111,7 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(1);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -119,7 +119,7 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(2);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -127,7 +127,7 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(3);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -135,7 +135,7 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(4);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -143,7 +143,7 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(5);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -151,18 +151,18 @@ namespace TelegramBot
 
                             department = Program.RepositoryDepartment.FindItem(6);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 4, department);
+                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, 3, department);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
                             break;
                         case "/да":
 
-                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, 5, true);
+                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, 4, true);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
                         case "/нет":
-                                                        
-                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, 5, false);
+
+                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, 4, false);
                             await GetStateUser(ouremployee, botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, Program.RepositoryEmployees, update, "");
 
                             break;
@@ -257,7 +257,7 @@ namespace TelegramBot
 
                 case UpdateType.Message:
 
-                    var statechat = _clientStates.ContainsKey(update.Message.Chat.Id) ? _clientStates[update.Message.Chat.Id] : null; 
+                    var statechat = _clientStates.ContainsKey(update.Message.Chat.Id) ? _clientStates[update.Message.Chat.Id] : _clientStates[update.Message.Chat.Id] = new UserStates { State = State.none };
 
                     var chatId = update.Message.Chat.Id;
 
@@ -272,9 +272,9 @@ namespace TelegramBot
 
                     }
 
-                    
+
                     await HandleMessage(update, cancellationToken, botClient, statechat);
-                    
+
                     break;
 
 
@@ -297,20 +297,19 @@ namespace TelegramBot
 
             var ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
 
-            if (statechat != null)
+            if (statechat.State != State.none)
             {
                 switch (statechat.State)
-                { 
+                {
                     case State.newemployee:
                         await GetStateUser(ouremployee, botClient, cancellationToken, chatId, Program.RepositoryEmployees, update, messageText);
                         break;
-                        
-                    case State.newapp:
 
+                    case State.newapp:
 
                         await GetStateApp(botClient, cancellationToken, chatId, update, messageText);
                         break;
-                
+
                 }
 
             }
@@ -328,8 +327,9 @@ namespace TelegramBot
                         {
 
                             _newApp = Program.RepositoryApplications.AddNewApp(ouremployee);
-                                                    
+
                             _newAppAction = Program.RepositoryApplicationActions.AddNewAppAction(_newApp.Id, ouremployee.Id);
+                            _clientStates[chatId] = new UserStates { State = State.newapp };
 
                             await GetStateApp(botClient, cancellationToken, chatId, update, "");
 
@@ -338,14 +338,73 @@ namespace TelegramBot
                     case "Посмотреть неисполненные заявки":
                         {
 
+                            var listapp = GetApplications.FindAll(chatId);
 
+                            if (listapp.Count != 0)
+                            {
 
+                                foreach (var app in listapp)
+                                {
+                                    await botClient.SendTextMessageAsync(
+                                        chatId: chatId,
+                                        text: "Заявка № - " + app,
+                                        cancellationToken: cancellationToken);
+
+                                }
+
+                                await botClient.SendTextMessageAsync(
+                                        chatId: chatId,
+                                        text: "Для новой задачи воспользуйтесь меню!",
+                                        replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
+                                    {
+                                        new KeyboardButton("Подать новую заявку"),
+                                        new KeyboardButton("Посмотреть неисполненные заявки"),
+
+                                    })
+                                        {
+                                            ResizeKeyboard = true,
+                                            OneTimeKeyboard = true,
+                                        },
+                                        cancellationToken: cancellationToken);
+
+                                _clientStates[chatId] = new UserStates { State = State.none };
+
+                            }
+                            else
+                            {
+                                await botClient.SendTextMessageAsync(
+                                            chatId: chatId,
+                                            text: "Ваших неисполненных заявок нет",
+                                            replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
+                        {
+                            new KeyboardButton("Подать новую заявку"),
+                            new KeyboardButton("Посмотреть неисполненные заявки"),
+
+                        })
+                                            {
+                                                ResizeKeyboard = true,
+                                                OneTimeKeyboard = true,
+                                            },
+                        cancellationToken: cancellationToken);
+
+                                _clientStates[chatId] = new UserStates { State = State.none };
+                            }
                             break;
                         }
                     default:
                         await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите задачу на панели!",
+                                replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
+                        {
+                            new KeyboardButton("Подать новую заявку"),
+                            new KeyboardButton("Посмотреть неисполненные заявки"),
+
+                        })
+                                {
+                                    ResizeKeyboard = true,
+                                    OneTimeKeyboard = true,
+                                },
                                 cancellationToken: cancellationToken);
                         break;
 
@@ -356,10 +415,12 @@ namespace TelegramBot
 
         }
 
+
+
         private async Task GetStateApp(ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, Update update, string messageText)
         {
             var statewrite = _newApp.statewrite;
-            
+
 
             switch (statewrite)
             {
@@ -402,35 +463,39 @@ namespace TelegramBot
                 }));
                     break;
                 case 2:
-                                     
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Введите номер кабинета",
                                 cancellationToken: cancellationToken);
+                    Program.RepositoryApplications.ChangeState(_newApp, 3);
                     break;
                 case 3:
-                    
-                    Program.RepositoryApplications.UpdateRoomApp(_newApp, messageText, 4);
-                    
+
+                    Program.RepositoryApplications.UpdateRoomApp(_newApp, messageText);
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Введите контактный телефон",
                                 cancellationToken: cancellationToken);
+                    Program.RepositoryApplications.ChangeState(_newApp, 4);
                     break;
                 case 4:
 
-                    Program.RepositoryApplications.UpdatePhoneApp(_newApp, messageText, 5);
+                    Program.RepositoryApplications.UpdatePhoneApp(_newApp, messageText);
 
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Введите текст заявки",
                                 cancellationToken: cancellationToken);
+                    Program.RepositoryApplications.ChangeState(_newApp, 5);
                     break;
                 case 5:
 
-                    Program.RepositoryApplications.UpdateContentApp(_newApp, messageText, 6);
-                    
-                    var stateapp  = Program.RepositoryApplicationState.FindItem(1);
+                    Program.RepositoryApplications.UpdateContentApp(_newApp, messageText);
+                    Program.RepositoryApplications.ChangeState(_newApp, 6);
+
+                    var stateapp = Program.RepositoryApplicationState.FindItem(1);
 
                     Program.RepositoryApplicationActions.ChangeState(_newAppAction, stateapp);
                     Program.RepositoryApplicationActions.ChangeActiveКecord(_newAppAction, true);
@@ -439,7 +504,7 @@ namespace TelegramBot
 
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
-                        text: "Выберите задачу",
+                        text: "Ваша заявка направлена в IT отдел.\nДля новой задачи воспользуйтесь меню!",
                         replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
                         {
                             new KeyboardButton("Подать новую заявку"),
@@ -452,7 +517,7 @@ namespace TelegramBot
                         },
                         cancellationToken: cancellationToken);
 
-                    _clientStates[chatId].State = State.none;
+                    _clientStates[chatId] = new UserStates { State = State.none };
                     break;
 
 
@@ -460,9 +525,16 @@ namespace TelegramBot
 
         }
 
-        private async Task GetStateUser(Employee ouremployee, ITelegramBotClient botClient, CancellationToken cancellationToken, 
+        private async Task GetStateUser(Employee ouremployee, ITelegramBotClient botClient, CancellationToken cancellationToken,
                                         long chatId, RepositoryEmployees repositoryEmployees, Update update, string messageText)
         {
+            if (ouremployee == null)
+            {
+                Program.RepositoryEmployees.AddNewEmployee(chatId);
+                ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
+                _clientStates[update.Message.Chat.Id] = new UserStates { State = State.newemployee };
+            }
+
             var stateuser = ouremployee.State;
 
             switch (stateuser)
@@ -476,10 +548,8 @@ namespace TelegramBot
                     break;
 
                 case 1:
-                    repositoryEmployees.UpdateFIOEmployee(chatId, 2, update.Message.ToString());
-                    
-                    break;
-                case 2:
+                    repositoryEmployees.UpdateFIOEmployee(chatId, update.Message.ToString());
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите должность",
@@ -496,9 +566,8 @@ namespace TelegramBot
                         InlineKeyboardButton.WithCallbackData("Медицинский инженер", "/инженер")
                     }
                 }));
-                    
                     break;
-                case 3:
+                case 2:
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите подразделение",
@@ -517,25 +586,25 @@ namespace TelegramBot
                         InlineKeyboardButton.WithCallbackData("Кафедра", "/кафедра")
                     }
                 }));
-                    
+
                     break;
-                case 4:
+                case 3:
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Являетесь ли Вы исполнителем заявок?",
                                 cancellationToken: cancellationToken,
                                 replyMarkup: new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
                 {
-                   
+
 
                         InlineKeyboardButton.WithCallbackData("Да", "/да"),
                         InlineKeyboardButton.WithCallbackData("Нет", "/нет"),
-                        
-                   
+
+
                 }));
 
                     break;
-                case 5:
+                case 4:
                     Message sentMessage = await botClient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Выберите задачу",
@@ -551,10 +620,9 @@ namespace TelegramBot
                         },
                         cancellationToken: cancellationToken);
 
-                    _clientStates[chatId].State = State.none;
+                    _clientStates[chatId] = new UserStates { State = State.none };
 
                     break;
-
                 default:
                     break;
 

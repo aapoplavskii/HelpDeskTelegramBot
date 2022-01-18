@@ -12,6 +12,7 @@ namespace TelegramBot
         public int EmployeeID { get; set; } 
         public int EmployeeIDEx { get; set; }
         public ApplicationState ApplicationState { get; set; }
+        public int AppState { get; set; }
         public string Comment { get; set; }
         public bool IsActive { get; set; }
 

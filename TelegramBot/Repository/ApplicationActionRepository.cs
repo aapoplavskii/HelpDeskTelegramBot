@@ -8,12 +8,12 @@ namespace TelegramBot
 {
     public class ApplicationActionRepository
     {
-        private List<ApplicationAction> _applicationsAction { get; set; } = new List<ApplicationAction>();
+        public List<ApplicationAction> ApplicationsAction { get; set; } = new List<ApplicationAction>();
 
         public ApplicationAction AddNewAppAction(int appID, int employeeID)
         {
             var newappaction = new ApplicationAction(appID, employeeID);
-            _applicationsAction.Add(newappaction);
+            ApplicationsAction.Add(newappaction);
 
             return newappaction;
 
