@@ -10,16 +10,13 @@ namespace TelegramBot
     {
         public int AppID { get; set; }
         public int EmployeeID { get; set; } 
-        public int EmployeeIDEx { get; set; }
         public ApplicationState ApplicationState { get; set; }
-        public int AppState { get; set; }
+        public int ApplicationStateID { get; set; }
         public string Comment { get; set; }
-        public bool IsActive { get; set; }
-
+       
         private int index = 0;
-        public DateTime DateCreate { get; set; }
-        public DateTime DateExecution { get; set; }
-
+        public DateTime DateWriteRecord { get; set; }
+        
 
         public ApplicationAction(int appid, int employeeid)
         {
@@ -27,7 +24,8 @@ namespace TelegramBot
             AppID = appid;
             EmployeeID = employeeid;
             ApplicationState = Program.RepositoryApplicationState.FindItem(1);
-            IsActive = false;
+            ApplicationStateID = 1;
+            DateWriteRecord = DateTime.Now;
 
         
         }

@@ -5,7 +5,7 @@
 
         public static RepositoryEmployees RepositoryEmployees = new();
         
-        public static ApplicationRepository RepositoryApplications = new();
+        public static IApplicationRepository RepositoryApplications = new ApplicationRepository();
 
         public static ApplicationActionRepository RepositoryApplicationActions = new();
 
@@ -27,9 +27,6 @@
             AddItem();
 
             bot.InitBot();
-
-            //WriteConsole.WriteData(repository);
-
 
         }
 

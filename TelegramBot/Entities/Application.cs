@@ -9,6 +9,7 @@ namespace TelegramBot
     public class Application : BaseEntity
     {
         public TypeApplication TypeApplication { get; set; }
+        public int TypeApplicationID { get; set; }
         public Employee Employee { get; set; }
         public int EmployeeID { get; set; }
         public Building Building { get; set; }
@@ -18,19 +19,14 @@ namespace TelegramBot
         public bool IsDelete { get; set; }
 
         private int index = 0;
-              
-
+        
         public int statewrite { get; set; }
-
         public Application(Employee employee)
         {
-
             Id = index++;
             Employee = employee;
             statewrite = 0;
             IsDelete = true;
-
-        
         }
 
         public override string ToString()

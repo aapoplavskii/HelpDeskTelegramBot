@@ -8,18 +8,18 @@ namespace TelegramBot
 {
     public class ApplicationRepository : IApplicationRepository
     {
-        public List<Application> Applications { get; set; } = new List<Application>();
+        private List<Application> _applications { get; set; } = new List<Application>();
 
         public Application FindItem(int id)
         {
-            return Applications.FirstOrDefault(s => s.Id == id);
+            return _applications.FirstOrDefault(s => s.Id == id);
         }
                 
 
         public Application AddNewApp(Employee employee)
         {
             var newapp = new Application(employee);
-            Applications.Add(newapp);
+            _applications.Add(newapp);
 
             return newapp;
         
@@ -48,6 +48,8 @@ namespace TelegramBot
         
 
         public void UpdateContentApp(Application app, string content) => app.Content = content;
+
+        public List<Application> GetListApp() => _applications;
         
     }
 }

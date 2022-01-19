@@ -11,11 +11,12 @@ namespace TelegramBot
         public static List<Application> FindAll(long chatid)
         {
 
-            var listapp = from application in Program.RepositoryApplications.Applications
-                                join employee in Program.RepositoryEmployees.Employees on application.EmployeeID equals employee.Id
+            var listapp = from application in Program.RepositoryApplications.GetListApp()
+                                join employee in Program.RepositoryEmployees.Employees on application.Employee equals employee
                                 join applicationaction in Program.RepositoryApplicationActions.ApplicationsAction on application.Id equals applicationaction.AppID
-                                where employee.Id == chatid && applicationaction.AppState == 1
+                                where employee.Id == chatid 
                                 select application;
+            
             
             return listapp.ToList();
 
