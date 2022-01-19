@@ -3,7 +3,7 @@
     public class Program
     {
 
-        public static RepositoryEmployees RepositoryEmployees = new();
+        public static IRepositoryEmployees RepositoryEmployees = new RepositoryEmployees();
         
         public static IApplicationRepository RepositoryApplications = new ApplicationRepository();
 
