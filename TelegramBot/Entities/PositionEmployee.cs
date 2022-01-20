@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
+    [Table(Name = "Building")]
     public class PositionEmployee : BaseEntity
     {
-       public string Name { get; set; }
+        [Column(Name = "Name")]
+        public string Name { get; set; }
 
         public PositionEmployee(int id,string name)
         { 

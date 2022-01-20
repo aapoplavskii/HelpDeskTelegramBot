@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LinqToDB.Mapping;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,8 @@ namespace TelegramBot
 {
     public class BaseEntity
     {
+        [PrimaryKey]
+        [Column (Name = "ID")]
         public int Id { get; set; }
 
     }

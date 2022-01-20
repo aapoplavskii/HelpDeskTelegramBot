@@ -7,8 +7,10 @@ namespace TelegramBot
         public string FIO { get; set; }
 
         public PositionEmployee Position { get; set; }
+        public int PositionEmployeeID { get; set; }
 
         public Department Department { get; set; }
+        public int DepartmentID { get; set; }
 
         public long Chat_ID   { get; set; }
         

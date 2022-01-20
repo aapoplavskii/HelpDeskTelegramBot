@@ -8,17 +8,41 @@ namespace TelegramBot
 {
     public static class GetApplications
     {
-        public static List<Application> FindAll(long chatid)
+        public static List<ApplicationAction> FindAll(long chatid)
         {
+            List<ApplicationAction> listapp = new List<ApplicationAction>();
 
-            var listapp = from application in Program.RepositoryApplications.GetListApp()
-                                join employee in Program.RepositoryEmployees._employees on application.Employee equals employee
-                                join applicationaction in Program.RepositoryApplicationActions._applicationsAction on application.Id equals applicationaction.AppID
-                                where employee.Id == chatid 
-                                select application;
+
+            var listuserapp = (from application in Program.RepositoryApplications.GetListApp()
+                              join employee in Program.RepositoryEmployees.GetListEmployee() on application.EmployeeID equals employee.Id
+                              where employee.Chat_ID == chatid
+                              select application.Id).ToList();
             
+            foreach (var item in listuserapp)
+            {
+                var ouraction = Program.RepositoryApplicationActions.GetListApp().Where(s => s.AppID == item).
+                                                                                  OrderByDescending(i => i.ApplicationStateID).
+                                                                                  Select(s => s).
+                                                                                  Take(1).
+                                                                                  FirstOrDefault();
+
+                if (ouraction != null)
+                {
+                    switch (ouraction.ApplicationStateID)
+                    {
+                        case 1:
+                            listapp.Add(ouraction);
+                            break;
+                        case 2:
+                            listapp.Add(ouraction);
+                            break;                  
+                    
+                    } 
+                    
+                }
+            }
             
-            return listapp.ToList();
+            return listapp;
 
         }
 

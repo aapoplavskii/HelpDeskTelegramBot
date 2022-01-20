@@ -8,6 +8,6 @@ namespace TelegramBot
 {
     public static class Config
     {
-        public static string SqlConnectionString = "User ID=postgres; Password = 'Kontroller-1394';Host=localhost;Port=5432;Database=ApplicationIT";
+        public static string SqlConnectionString = "User ID=postgres; Password = 'Kontroller-1394';Host=localhost;Port=5432;Database=TelegramBot";
     }
 }

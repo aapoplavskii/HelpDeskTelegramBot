@@ -394,11 +394,13 @@ namespace TelegramBot
                             if (listapp.Count != 0)
                             {
 
-                                foreach (var app in listapp)
+                                foreach (var appaction in listapp)
                                 {
+                                    var app = Program.RepositoryApplications.FindItem(appaction.AppID);
+
                                     await botClient.SendTextMessageAsync(
                                         chatId: chatId,
-                                        text: "Заявка № - " + app,
+                                        text: "Заявка № - " + app.ToString() + ",\nсостояние - " + appaction.ApplicationState,
                                         cancellationToken: cancellationToken);
 
                                 }

@@ -44,6 +44,7 @@ namespace TelegramBot
             if (employee != null)
             {
                 employee.Position = position;
+                employee.PositionEmployeeID = position.Id;
                 employee.State = state;
             }
 
@@ -55,6 +56,7 @@ namespace TelegramBot
             if (employee != null)
             {
                 employee.Department = department;
+                employee.DepartmentID = department.Id;
                 employee.State = state;
             }
 
