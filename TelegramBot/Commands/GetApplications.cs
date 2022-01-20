@@ -13,7 +13,7 @@ namespace TelegramBot
 
             var listapp = from application in Program.RepositoryApplications.GetListApp()
                                 join employee in Program.RepositoryEmployees._employees on application.Employee equals employee
-                                join applicationaction in Program.RepositoryApplicationActions.ApplicationsAction on application.Id equals applicationaction.AppID
+                                join applicationaction in Program.RepositoryApplicationActions._applicationsAction on application.Id equals applicationaction.AppID
                                 where employee.Id == chatid 
                                 select application;
             

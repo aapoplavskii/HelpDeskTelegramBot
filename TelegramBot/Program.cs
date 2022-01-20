@@ -7,17 +7,17 @@
         
         public static IApplicationRepository RepositoryApplications = new ApplicationRepository();
 
-        public static ApplicationActionRepository RepositoryApplicationActions = new();
+        public static IApplicationActionRepository RepositoryApplicationActions = new ApplicationActionRepository();
 
-        public static RepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabases<PositionEmployee>();
+        public static IRepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabases<PositionEmployee>();
 
-        public static RepositoryAdditionalDatabases<Department> RepositoryDepartment = new RepositoryAdditionalDatabases<Department>();
+        public static IRepositoryAdditionalDatabases<Department> RepositoryDepartment = new RepositoryAdditionalDatabases<Department>();
 
-        public static RepositoryAdditionalDatabases<Building> RepositoryBuildings = new RepositoryAdditionalDatabases<Building>();
+        public static IRepositoryAdditionalDatabases<Building> RepositoryBuildings = new RepositoryAdditionalDatabases<Building>();
 
-        public static RepositoryAdditionalDatabases<TypeApplication> RepositoryTypeApplication = new RepositoryAdditionalDatabases<TypeApplication>();
+        public static IRepositoryAdditionalDatabases<TypeApplication> RepositoryTypeApplication = new RepositoryAdditionalDatabases<TypeApplication>();
        
-        public static RepositoryAdditionalDatabases<ApplicationState> RepositoryApplicationState = new RepositoryAdditionalDatabases<ApplicationState>();
+        public static IRepositoryAdditionalDatabases<ApplicationState> RepositoryApplicationState = new RepositoryAdditionalDatabases<ApplicationState>();
 
         static void Main(string[] args)
         {

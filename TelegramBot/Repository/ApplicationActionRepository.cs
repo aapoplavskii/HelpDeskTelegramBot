@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class ApplicationActionRepository
+    public class ApplicationActionRepository: IApplicationActionRepository
     {
-        public List<ApplicationAction> ApplicationsAction { get; set; } = new List<ApplicationAction>();
+        private List<ApplicationAction> _applicationsAction { get; set; } = new List<ApplicationAction>();
 
         public void AddNewAppAction(int appID, int employeeID)
         {
             var newappaction = new ApplicationAction(appID, employeeID);
-            ApplicationsAction.Add(newappaction);
+            _applicationsAction.Add(newappaction);
         
         }
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)
@@ -26,7 +26,8 @@ namespace TelegramBot
             applicationAction.DateWriteRecord = dateTime;
 
         }
-                
+
+        public List<ApplicationAction> GetListApp() => _applicationsAction;
 
     }
 }

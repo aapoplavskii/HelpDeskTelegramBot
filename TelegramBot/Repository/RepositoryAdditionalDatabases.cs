@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    public class RepositoryAdditionalDatabases<T> where T : BaseEntity
+    public class RepositoryAdditionalDatabases<T>: IRepositoryAdditionalDatabases<T> where T : BaseEntity
     {
    
         private List<T> _listitems = new List<T>();
