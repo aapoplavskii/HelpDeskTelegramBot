@@ -15,7 +15,7 @@ namespace TelegramBot
 
         public PositionEmployee(int id,string name)
         { 
-            this.Id = id;   
+            this.ID = id;   
             this.Name = name;
         
         }

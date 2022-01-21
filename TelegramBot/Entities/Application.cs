@@ -41,16 +41,16 @@ namespace TelegramBot
         public int statewrite { get; set; }
         public Application(Employee employee)
         {
-            Id = index++;
+            ID = index++;
             Employee = employee;
-            EmployeeID = employee.Id;
+            EmployeeID = employee.ID;
             statewrite = 0;
             IsDelete = true;
         }
 
         public override string ToString()
         {
-            return Id + ", тип - " + TypeApplication + ",\nтекст - " + Content;
+            return ID + ", тип - " + TypeApplication + ",\nтекст - " + Content;
         }
 
 

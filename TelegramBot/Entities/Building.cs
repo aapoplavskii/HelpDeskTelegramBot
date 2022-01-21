@@ -10,8 +10,8 @@ namespace TelegramBot
 
         public Building(int id, string name)
         { 
-            this.Id = id;   
-            this.Name = name;
+            ID = id;
+            Name = name;
         
         }
         public override string ToString()

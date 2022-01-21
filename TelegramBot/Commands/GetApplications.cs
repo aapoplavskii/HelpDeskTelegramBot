@@ -14,9 +14,9 @@ namespace TelegramBot
 
 
             var listuserapp = (from application in Program.RepositoryApplications.GetListApp()
-                              join employee in Program.RepositoryEmployees.GetListEmployee() on application.EmployeeID equals employee.Id
+                              join employee in Program.RepositoryEmployees.GetListEmployee() on application.EmployeeID equals employee.ID
                               where employee.Chat_ID == chatid
-                              select application.Id).ToList();
+                              select application.ID).ToList();
             
             foreach (var item in listuserapp)
             {

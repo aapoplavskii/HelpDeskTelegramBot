@@ -3,28 +3,28 @@
     public class Program
     {
 
-        public static IRepositoryEmployees RepositoryEmployees = new RepositoryEmployees();
+        public static IRepositoryEmployees RepositoryEmployees = new RepositoryEmployeeSQL();
         
-        public static IApplicationRepository RepositoryApplications = new ApplicationRepository();
+        public static IApplicationRepository RepositoryApplications = new ApplicationRepositorySQL();
 
-        public static IApplicationActionRepository RepositoryApplicationActions = new ApplicationActionRepository();
+        public static IApplicationActionRepository RepositoryApplicationActions = new ApplicationActionRepositorySQL();
 
         public static IRepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabasesSQL<PositionEmployee>();
 
-        public static IRepositoryAdditionalDatabases<Department> RepositoryDepartment = new RepositoryAdditionalDatabases<Department>();
+        public static IRepositoryAdditionalDatabases<Department> RepositoryDepartment = new RepositoryAdditionalDatabasesSQL<Department>();
 
-        public static IRepositoryAdditionalDatabases<Building> RepositoryBuildings = new RepositoryAdditionalDatabases<Building>();
+        public static IRepositoryAdditionalDatabases<Building> RepositoryBuildings = new RepositoryAdditionalDatabasesSQL<Building>();
 
-        public static IRepositoryAdditionalDatabases<TypeApplication> RepositoryTypeApplication = new RepositoryAdditionalDatabases<TypeApplication>();
+        public static IRepositoryAdditionalDatabases<TypeApplication> RepositoryTypeApplication = new RepositoryAdditionalDatabasesSQL<TypeApplication>();
        
-        public static IRepositoryAdditionalDatabases<ApplicationState> RepositoryApplicationState = new RepositoryAdditionalDatabases<ApplicationState>();
+        public static IRepositoryAdditionalDatabases<ApplicationState> RepositoryApplicationState = new RepositoryAdditionalDatabasesSQL<ApplicationState>();
 
         static void Main(string[] args)
         {
 
             var bot = new Bot();
             
-            AddItem();
+            //AddItem();
 
             bot.InitBot();
 

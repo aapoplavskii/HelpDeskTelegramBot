@@ -12,7 +12,7 @@ namespace TelegramBot
 
         public Application FindItem(int id)
         {
-            return _applications.FirstOrDefault(s => s.Id == id);
+            return _applications.FirstOrDefault(s => s.ID == id);
         }
                 
 
@@ -32,14 +32,14 @@ namespace TelegramBot
         public void UpdateTypeApp(Application app, TypeApplication typeApplication, int state)
         {
             app.TypeApplication = typeApplication;
-            app.TypeApplicationID = typeApplication.Id;
+            app.TypeApplicationID = typeApplication.ID;
             app.statewrite = state;    
             
         }
         public void UpdateBuildingApp(Application app, Building building, int state)
         {
             app.Building = building;
-            app.BuildingID = building.Id;
+            app.BuildingID = building.ID;
             app.statewrite = state;
 
         }

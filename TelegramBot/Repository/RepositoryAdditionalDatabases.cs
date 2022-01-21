@@ -17,7 +17,7 @@ namespace TelegramBot
         
         }
 
-        public T FindItem(int id) => _listitems.FirstOrDefault(s => s.Id == id);
+        public T FindItem(int id) => _listitems.FirstOrDefault(s => s.ID == id);
 
     }
 }

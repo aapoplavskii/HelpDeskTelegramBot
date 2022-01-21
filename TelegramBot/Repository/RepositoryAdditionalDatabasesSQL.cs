@@ -23,7 +23,7 @@ namespace TelegramBot
 
             using (Config.db)
             {
-                item = Config.db.GetTable<T>().FirstOrDefault(x => x.Id == id);
+                item = Config.db.GetTable<T>().FirstOrDefault(x => x.ID == id);
             }
 
             return item;

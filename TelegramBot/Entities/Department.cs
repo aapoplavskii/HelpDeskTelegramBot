@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    [Table(Name = "Building")]
+    [Table(Name = "Department")]
     public class Department: BaseEntity
     {
         [Column(Name = "Name")]
@@ -16,7 +16,7 @@ namespace TelegramBot
         public Department(int id, string name)
         { 
             this.Name = name;
-            this.Id = id;
+            this.ID = id;
         
         }
 

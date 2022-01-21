@@ -72,7 +72,7 @@ namespace TelegramBot
 
                         Program.RepositoryEmployees.AddNewEmployee(update.CallbackQuery.Message.Chat.Id);
                         ouremployee = Program.RepositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
-                        _clientStates[update.CallbackQuery.Message.Chat.Id] = new UserStates { State = State.newemployee, Value = ouremployee.Id };
+                        _clientStates[update.CallbackQuery.Message.Chat.Id] = new UserStates { State = State.newemployee, Value = ouremployee.ID };
 
                     }
 
@@ -312,7 +312,7 @@ namespace TelegramBot
 
                         Program.RepositoryEmployees.AddNewEmployee(chatId);
                         ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
-                        _clientStates[chatId] = new UserStates { State = State.newemployee, Value = ouremployee.Id };
+                        _clientStates[chatId] = new UserStates { State = State.newemployee, Value = ouremployee.ID };
 
                     }
 
@@ -379,8 +379,8 @@ namespace TelegramBot
                             
                             var newApp = Program.RepositoryApplications.AddNewApp(ouremployee);
 
-                            Program.RepositoryApplicationActions.AddNewAppAction(newApp.Id, ouremployee.Id);
-                            _clientStates[chatId] = new UserStates { State = State.newapp, Value = newApp.Id };
+                            Program.RepositoryApplicationActions.AddNewAppAction(newApp.ID, ouremployee.ID);
+                            _clientStates[chatId] = new UserStates { State = State.newapp, Value = newApp.ID };
 
                             await RegNewApp(botClient, cancellationToken, chatId, update, ouremployee);
 
@@ -550,7 +550,7 @@ namespace TelegramBot
                     Program.RepositoryApplications.ChangeState(Program.RepositoryApplications.FindItem(_clientStates[chatId].Value), 6);
 
                     //TODO создать запись в таблице движения заявок
-                    Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.Id);
+                    Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID);
 
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
@@ -582,7 +582,7 @@ namespace TelegramBot
             {
                 Program.RepositoryEmployees.AddNewEmployee(chatId);
                 ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
-                _clientStates[update.Message.Chat.Id] = new UserStates { State = State.newemployee, Value = ouremployee.Id };
+                _clientStates[update.Message.Chat.Id] = new UserStates { State = State.newemployee, Value = ouremployee.ID };
             }
 
             var stateuser = ouremployee.State;

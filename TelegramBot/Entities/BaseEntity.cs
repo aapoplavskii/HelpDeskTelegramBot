@@ -10,8 +10,8 @@ namespace TelegramBot
     public class BaseEntity
     {
         [PrimaryKey]
-        [Column (Name = "ID")]
-        public int Id { get; set; }
+        [Column(Name = "ID")]
+        public int ID { get; set; }
 
     }
 }

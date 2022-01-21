@@ -13,7 +13,7 @@ namespace TelegramBot
         public Employee FindNameItem(string name) => _employees.FirstOrDefault(s => s.FIO.Contains(name));
 
 
-        public Employee FindItem(int id) => _employees.FirstOrDefault(s => s.Id == id);
+        public Employee FindItem(int id) => _employees.FirstOrDefault(s => s.ID == id);
         public Employee FindItemChatID(long chatID) => _employees.FirstOrDefault(s => s.Chat_ID == chatID);
 
         public int FindState(long chatID) => _employees.FirstOrDefault(s => s.Chat_ID == chatID).State;
@@ -44,7 +44,7 @@ namespace TelegramBot
             if (employee != null)
             {
                 employee.Position = position;
-                employee.PositionEmployeeID = position.Id;
+                employee.PositionEmployeeID = position.ID;
                 employee.State = state;
             }
 
@@ -56,7 +56,7 @@ namespace TelegramBot
             if (employee != null)
             {
                 employee.Department = department;
-                employee.DepartmentID = department.Id;
+                employee.DepartmentID = department.ID;
                 employee.State = state;
             }
 

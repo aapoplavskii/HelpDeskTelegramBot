@@ -16,7 +16,7 @@ namespace TelegramBot
         public TypeApplication(int id, string name)
         {
             this.Name = name;
-            this.Id = id;   
+            this.ID = id;   
             
         }
 
