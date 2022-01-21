@@ -9,7 +9,7 @@
 
         public static IApplicationActionRepository RepositoryApplicationActions = new ApplicationActionRepository();
 
-        public static IRepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabases<PositionEmployee>();
+        public static IRepositoryAdditionalDatabases<PositionEmployee> RepositoryPositions = new RepositoryAdditionalDatabasesSQL<PositionEmployee>();
 
         public static IRepositoryAdditionalDatabases<Department> RepositoryDepartment = new RepositoryAdditionalDatabases<Department>();
 
