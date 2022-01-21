@@ -1,34 +1,29 @@
 {
   "format": 1,
   "restore": {
-    "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {}
+    "F:\\Code\\OTUS\\OTUS.CSharpBasic\\aapoplavskii\\Project\\TelegramBot\\TelegramBot.csproj": {}
   },
   "projects": {
-    "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\TelegramBot.csproj": {
+    "F:\\Code\\OTUS\\OTUS.CSharpBasic\\aapoplavskii\\Project\\TelegramBot\\TelegramBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
+        "projectUniqueName": "F:\\Code\\OTUS\\OTUS.CSharpBasic\\aapoplavskii\\Project\\TelegramBot\\TelegramBot.csproj",
         "projectName": "TelegramBot",
-        "projectPath": "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
-        "packagesPath": "C:\\Users\\aa_poplavskii\\.nuget\\packages\\",
-        "outputPath": "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\obj\\",
+        "projectPath": "F:\\Code\\OTUS\\OTUS.CSharpBasic\\aapoplavskii\\Project\\TelegramBot\\TelegramBot.csproj",
+        "packagesPath": "C:\\Users\\SAM-Solutions\\.nuget\\packages\\",
+        "outputPath": "F:\\Code\\OTUS\\OTUS.CSharpBasic\\aapoplavskii\\Project\\TelegramBot\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages",
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\aa_poplavskii\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\SAM-Solutions\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
         ],
         "sources": {
           "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-          "https://api.nuget.org/v3/index.json": {}
+          "https://api.nuget.org/v3/index.json": {},
+          "https://sitecore.myget.org/F/sc-packages/api/v3/index.json": {}
         },
         "frameworks": {
           "net5.0": {
@@ -53,6 +48,14 @@
             "Telegram.Bot.Extensions.Polling": {
               "target": "Package",
               "version": "[1.0.1, )"
+            },
+            "linq2db": {
+              "target": "Package",
+              "version": "[3.6.0, )"
+            },
+            "linq2db.PostgreSQL": {
+              "target": "Package",
+              "version": "[3.6.0, )"
             }
           },
           "imports": [

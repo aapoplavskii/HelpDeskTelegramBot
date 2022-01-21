@@ -24,12 +24,13 @@
 
             var bot = new Bot();
             
-            AddItem();
+            //AddItem();
 
             bot.InitBot();
 
         }
 
+        // TODO: не забыть рассказать про идемпотентность
         private static void AddItem()
         {
             RepositoryPositions.AddItem(new PositionEmployee(1, "Медицинский сотрудник"));

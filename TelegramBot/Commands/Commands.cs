@@ -8,6 +8,7 @@ namespace TelegramBot
 {
     public static class Commands
     {
+
         public static void SendAppForTechEmployee()
         { 
             

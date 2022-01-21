@@ -9,7 +9,9 @@
       "TelegramBot/1.0.0": {
         "dependencies": {
           "Telegram.Bot": "17.0.0",
-          "Telegram.Bot.Extensions.Polling": "1.0.1"
+          "Telegram.Bot.Extensions.Polling": "1.0.1",
+          "linq2db": "3.6.0",
+          "linq2db.PostgreSQL": "3.6.0"
         },
         "runtime": {
           "TelegramBot.dll": {}
@@ -23,6 +25,23 @@
           }
         }
       },
+      "linq2db/3.6.0": {
+        "dependencies": {
+          "System.ComponentModel.Annotations": "4.7.0"
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/linq2db.dll": {
+            "assemblyVersion": "3.6.0.0",
+            "fileVersion": "3.6.0.0"
+          }
+        }
+      },
+      "linq2db.PostgreSQL/3.6.0": {
+        "dependencies": {
+          "Npgsql": "5.0.11",
+          "linq2db": "3.6.0"
+        }
+      },
       "Newtonsoft.Json/12.0.2": {
         "runtime": {
           "lib/netstandard2.0/Newtonsoft.Json.dll": {
@@ -31,6 +50,19 @@
           }
         }
       },
+      "Npgsql/5.0.11": {
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.6.0"
+        },
+        "runtime": {
+          "lib/net5.0/Npgsql.dll": {
+            "assemblyVersion": "5.0.11.0",
+            "fileVersion": "5.0.11.0"
+          }
+        }
+      },
+      "System.ComponentModel.Annotations/4.7.0": {},
+      "System.Runtime.CompilerServices.Unsafe/4.6.0": {},
       "System.Threading.Channels/6.0.0": {
         "runtime": {
           "lib/netcoreapp3.1/System.Threading.Channels.dll": {
@@ -78,12 +110,47 @@
       "path": "jetbrains.annotations/2021.3.0",
       "hashPath": "jetbrains.annotations.2021.3.0.nupkg.sha512"
     },
+    "linq2db/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-ZgaxVkEbxbHparKQ8fCW13S1wp9m3vDQkmbbssIhaNmbFoWm9zV8K/tmX+cL0CEcqRAdIibSOsIdZp3QWNK0mg==",
+      "path": "linq2db/3.6.0",
+      "hashPath": "linq2db.3.6.0.nupkg.sha512"
+    },
+    "linq2db.PostgreSQL/3.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-E+ptzCjJCS63TSh9F0xrHvAi2DLMI6jtRcvKakbtZsTCcpd6EClhpq/uRQeEznmReXMidBELoRcdwQKCuVJ7HA==",
+      "path": "linq2db.postgresql/3.6.0",
+      "hashPath": "linq2db.postgresql.3.6.0.nupkg.sha512"
+    },
     "Newtonsoft.Json/12.0.2": {
       "type": "package",
       "serviceable": true,
       "sha512": "sha512-rTK0s2EKlfHsQsH6Yx2smvcTCeyoDNgCW7FEYyV01drPlh2T243PR2DiDXqtC5N4GDm4Ma/lkxfW5a/4793vbA==",
       "path": "newtonsoft.json/12.0.2",
       "hashPath": "newtonsoft.json.12.0.2.nupkg.sha512"
+    },
+    "Npgsql/5.0.11": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tCc36FSYqdYN/JQUaR2KkQj54suYPg5Jl6LXOGZ6MiiqnwDHDXkEKwxhsqR6+Ovh3MZ4yZltkKYJu9JG3WZZ9g==",
+      "path": "npgsql/5.0.11",
+      "hashPath": "npgsql.5.0.11.nupkg.sha512"
+    },
+    "System.ComponentModel.Annotations/4.7.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0YFqjhp/mYkDGpU0Ye1GjE53HMp9UVfGN7seGpAMttAC0C40v5gw598jCgpbBLMmCo0E5YRLBv5Z2doypO49ZQ==",
+      "path": "system.componentmodel.annotations/4.7.0",
+      "hashPath": "system.componentmodel.annotations.4.7.0.nupkg.sha512"
+    },
+    "System.Runtime.CompilerServices.Unsafe/4.6.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HxozeSlipUK7dAroTYwIcGwKDeOVpQnJlpVaOkBz7CM4TsE5b/tKlQBZecTjh6FzcSbxndYaxxpsBMz+wMJeyw==",
+      "path": "system.runtime.compilerservices.unsafe/4.6.0",
+      "hashPath": "system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512"
     },
     "System.Threading.Channels/6.0.0": {
       "type": "package",

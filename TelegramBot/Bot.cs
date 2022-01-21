@@ -8,6 +8,7 @@ using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Commands;
 
 namespace TelegramBot
 {
@@ -24,7 +25,10 @@ namespace TelegramBot
             using var cts = new CancellationTokenSource();
             var receiverOptions = new ReceiverOptions
             {
-                AllowedUpdates = { }
+                AllowedUpdates = new UpdateType[] {
+                    UpdateType.Message,
+                    UpdateType.CallbackQuery
+                    }
             };
 
             bot.StartReceiving(
@@ -37,6 +41,13 @@ namespace TelegramBot
 
             cts.Cancel();
         }
+
+        //void HandleMessage(Update update) {
+            //var commandFactory = new CommandFactory();
+            //var command = commandFactory.GetCommand(update);
+            //var result = await command.Execute(update.Message.Text);
+            //отправить сообщение пользователя
+        //}
 
 
         private Task HandleErrorAsync(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)
@@ -177,10 +188,10 @@ namespace TelegramBot
                             typeApplication = Program.RepositoryTypeApplication.FindItem(1);
 
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
-                            
+
                             if (newapp != null)
-                            Program.RepositoryApplications.UpdateTypeApp(newapp, typeApplication, 1);
-                            
+                                Program.RepositoryApplications.UpdateTypeApp(newapp, typeApplication, 1);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -192,7 +203,7 @@ namespace TelegramBot
 
                             if (newapp != null)
                                 Program.RepositoryApplications.UpdateTypeApp(newapp, typeApplication, 1);
-                            
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -204,7 +215,7 @@ namespace TelegramBot
 
                             if (newapp != null)
                                 Program.RepositoryApplications.UpdateTypeApp(newapp, typeApplication, 1);
-                            
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -229,7 +240,7 @@ namespace TelegramBot
 
                             if (newapp != null)
                                 Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
-                            
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -240,8 +251,8 @@ namespace TelegramBot
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2); 
-                            
+                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -252,8 +263,8 @@ namespace TelegramBot
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2); 
-                            
+                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -264,8 +275,8 @@ namespace TelegramBot
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2); 
-                            
+                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -276,8 +287,8 @@ namespace TelegramBot
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2); 
-                            
+                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -288,8 +299,8 @@ namespace TelegramBot
                             newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2); 
-                            
+                                Program.RepositoryApplications.UpdateBuildingApp(newapp, building, 2);
+
                             await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
@@ -302,7 +313,7 @@ namespace TelegramBot
                     break;
 
                 case UpdateType.Message:
-                                       
+
                     var chatId = update.Message.Chat.Id;
 
                     ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
@@ -331,15 +342,18 @@ namespace TelegramBot
 
         private async Task HandleMessage(Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, UserStates statechat, Employee ouremployee, long chatId)
         {
+            TelegramBot.Commands.ICommand command = null;
+            TelegramBot.Commands.Response response = null;
+
             if (update.Type != UpdateType.Message)
                 return;
 
             if (update.Message!.Type != MessageType.Text)
                 return;
 
-           var messageText = update.Message.Text;
+            var messageText = update.Message.Text;
 
-            
+
             if (statechat.State != State.none)
             {
                 switch (statechat.State)
@@ -362,21 +376,30 @@ namespace TelegramBot
 
                 {
                     case "/start":
-                                                
-                        if (ouremployee.State != 4)
-                        {
-                           await botClient.SendTextMessageAsync(
-                                        chatId: chatId,
-                                        text: "Необходимо пройти регистрацию",
-                                        cancellationToken: cancellationToken);
+                        command = new TelegramBot.Commands.StartCommand();
+                        //await botClient.SendTextMessageAsync(
+                        //    chatId: chatId, text: response.Message,
+                        //    replyMarkup: response.Actions.Select(i => null));
 
-                            await RegNewUser(ouremployee, botClient, cancellationToken, chatId, update);  
-                        }
-                        
+
+                        //if (ouremployee.State != 4)
+                        //{
+                        //   await botClient.SendTextMessageAsync(
+                        //                chatId: chatId,
+                        //                text: "Необходимо пройти регистрацию",
+                        //                cancellationToken: cancellationToken);
+
+                        //    await RegNewUser(ouremployee, botClient, cancellationToken, chatId, update);  
+                        //}
+
                         break;
                     case "Подать новую заявку":
                         {
-                            
+                            command = new TelegramBot.Commands.StartCommand();
+                            response = await command.Execute(update);
+
+
+
                             var newApp = Program.RepositoryApplications.AddNewApp(ouremployee);
 
                             Program.RepositoryApplicationActions.AddNewAppAction(newApp.Id, ouremployee.Id);
@@ -464,6 +487,10 @@ namespace TelegramBot
                 }
             }
 
+            response = await command.Execute(update);
+            await botClient.SendTextMessageAsync(
+            chatId: chatId, text: response.Message,
+            replyMarkup: response.Actions.Select(i => null));
         }
 
         private async Task RegNewApp(ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, Update update, Employee ouremployee)
@@ -475,7 +502,7 @@ namespace TelegramBot
             {
                 messageText = update.Message.Text;
             }
-            
+
             switch (statewrite)
             {
                 case 0:
@@ -503,6 +530,7 @@ namespace TelegramBot
                                 cancellationToken: cancellationToken,
                                 replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
                 {
+
                     new List<InlineKeyboardButton>() {
 
                         InlineKeyboardButton.WithCallbackData("2.1", "/2.1"),
@@ -514,7 +542,7 @@ namespace TelegramBot
                         InlineKeyboardButton.WithCallbackData("5", "/5"),
                         InlineKeyboardButton.WithCallbackData("7", "/7")
                     }
-                }));
+                }));;
                     break;
                 case 2:
 
@@ -673,7 +701,7 @@ namespace TelegramBot
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
 
                     break;
-                
+
                 default:
                     break;
 
