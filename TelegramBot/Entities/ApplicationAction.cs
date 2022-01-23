@@ -41,6 +41,8 @@ namespace TelegramBot
         
         }
 
+        public ApplicationAction() { }
+
         
 
 

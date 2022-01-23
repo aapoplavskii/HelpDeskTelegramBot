@@ -48,6 +48,8 @@ namespace TelegramBot
             IsDelete = true;
         }
 
+        public Application() {}
+
         public override string ToString()
         {
             return ID + ", тип - " + TypeApplication + ",\nтекст - " + Content;

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace TelegramBot
 {
-    [Table(Name = "Building")]
+    [Table(Name = "TypeApplication")]
     public class TypeApplication: BaseEntity
     {
         [Column(Name = "Name")]
@@ -19,6 +19,8 @@ namespace TelegramBot
             this.ID = id;   
             
         }
+
+        public TypeApplication() { }
 
         public override string ToString()
         { 

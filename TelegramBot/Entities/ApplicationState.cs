@@ -18,6 +18,7 @@ namespace TelegramBot
             this.ID = id;
             this.Name = name;
         }
+        public ApplicationState() { }
 
         public override string ToString()
         {

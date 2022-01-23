@@ -20,6 +20,8 @@ namespace TelegramBot
         
         }
 
+        public Department() { }
+
         public override string ToString()
         {
             return Name;

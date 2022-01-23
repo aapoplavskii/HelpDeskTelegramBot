@@ -15,16 +15,18 @@ namespace TelegramBot
 
             using (Config.db)
             {
-                var table = Config.db.Insert(newemployee);
+                Config.db.Insert(newemployee);
             }
+
         }
 
         public void ChangeState(Employee employee, int state)
         {
+            employee.State = state;
             
             using (Config.db)
             {
-                var table = Config.db.Update(employee.State);
+                var table = Config.db.Update(employee);
             }
         }
 
@@ -42,9 +44,10 @@ namespace TelegramBot
         public Employee FindItemChatID(long chatID)
         {
             Employee item = null;
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                item = Config.db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID);
+                item = db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID);
+               
             }
 
             return item;

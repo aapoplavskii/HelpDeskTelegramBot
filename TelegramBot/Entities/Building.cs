@@ -14,6 +14,8 @@ namespace TelegramBot
             Name = name;
         
         }
+
+        public Building() { }
         public override string ToString()
         {
             return Name;
