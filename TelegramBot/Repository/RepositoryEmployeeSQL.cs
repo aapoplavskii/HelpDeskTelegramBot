@@ -13,29 +13,31 @@ namespace TelegramBot
         {
             var newemployee = new Employee(chatID);
 
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                Config.db.Insert(newemployee);
+                var table = db.Insert(newemployee);
             }
 
         }
 
-        public void ChangeState(Employee employee, int state)
+        public void ChangeState(long chatID, int state)
         {
+            var employee = FindItemChatID(chatID);
+
             employee.State = state;
             
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Update(employee);
+                var table = db.Update(employee);
             }
         }
 
         public Employee FindItem(int id)
         {
             Employee item = null;
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-               item = Config.db.GetTable<Employee>().FirstOrDefault(x => x.ID == id);
+               item = db.GetTable<Employee>().FirstOrDefault(x => x.ID == id);
             }
 
             return item;
@@ -56,9 +58,9 @@ namespace TelegramBot
         public Employee FindNameItem(string name)
         {
             Employee item = null;
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                item = Config.db.GetTable<Employee>().FirstOrDefault(x => x.FIO.Contains(name));
+                item = db.GetTable<Employee>().FirstOrDefault(x => x.FIO.Contains(name));
             }
 
             return item;
@@ -67,9 +69,9 @@ namespace TelegramBot
         public int FindState(long chatID)
         {
            int state = 0;
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                state = Config.db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID).State;
+                state = db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID).State;
             }
 
             return state;
@@ -88,13 +90,12 @@ namespace TelegramBot
             }
         }
 
-        public void UpdateDepartmentEmployee(long chatID, int state, Department department)
+        public void UpdateDepartmentEmployee(long chatID, Department department)
         {
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var employee = FindItemChatID(chatID);
-                employee.Department = department;
-                employee.State = state;
+                employee.DepartmentID = department.ID;
 
                 var table = db.Update(employee);
                 
@@ -107,32 +108,29 @@ namespace TelegramBot
             {
                 var employee = FindItemChatID(chatID);
                 employee.FIO = fio;
-                
                 var table = db.Update(employee);
 
             }
         }
 
-        public void UpdateIsExecutorEmployee(long chatID, int state, bool isexecutor)
+        public void UpdateIsExecutorEmployee(long chatID, bool isexecutor)
         {
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var employee = FindItemChatID(chatID);
                 employee.IsExecutor = isexecutor;
-                employee.State = state;
 
                 var table = db.Update(employee);
 
             }
         }
 
-        public void UpdatePositionEmployee(long chatID, int state, PositionEmployee position)
+        public void UpdatePositionEmployee(long chatID, PositionEmployee position)
         {
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var employee = FindItemChatID(chatID);
-                employee.Position = position;
-                employee.State = state;
+                employee.PositionEmployeeID = position.ID;
 
                 var table = db.Update(employee);
 

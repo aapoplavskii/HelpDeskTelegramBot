@@ -11,9 +11,9 @@ namespace TelegramBot
     {
         public void AddItem(T item)
         {
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Insert(item);
+                var table = db.Insert(item);
             }
         }
 
@@ -21,9 +21,9 @@ namespace TelegramBot
         {
             T item = null;
 
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                item = Config.db.GetTable<T>().FirstOrDefault(x => x.ID == id);
+                item = db.GetTable<T>().FirstOrDefault(x => x.ID == id);
             }
 
             return item;

@@ -23,8 +23,10 @@ namespace TelegramBot
             _employees.Add(new Employee(chatID));
         }
 
-        public void ChangeState(Employee employee, int state)
+        public void ChangeState(long chatID, int state)
         {
+            var employee = FindItemChatID(chatID);
+
             employee.State = state;
         }
 
@@ -37,7 +39,7 @@ namespace TelegramBot
             }
 
         }
-        public void UpdatePositionEmployee(long chatID, int state, PositionEmployee position)
+        public void UpdatePositionEmployee(long chatID, PositionEmployee position)
         {
             var employee = FindItemChatID(chatID);
 
@@ -45,11 +47,10 @@ namespace TelegramBot
             {
                 employee.Position = position;
                 employee.PositionEmployeeID = position.ID;
-                employee.State = state;
             }
 
         }
-        public void UpdateDepartmentEmployee(long chatID, int state, Department department)
+        public void UpdateDepartmentEmployee(long chatID, Department department)
         {
             var employee = FindItemChatID(chatID);
 
@@ -57,18 +58,16 @@ namespace TelegramBot
             {
                 employee.Department = department;
                 employee.DepartmentID = department.ID;
-                employee.State = state;
             }
 
         }
 
-        public void UpdateIsExecutorEmployee(long chatID, int state, bool isexecutor)
+        public void UpdateIsExecutorEmployee(long chatID, bool isexecutor)
         {
             var employee = FindItemChatID(chatID);
             if (employee != null)
             {
                 employee.IsExecutor = isexecutor;
-                employee.State = state;
             }
         }
 

@@ -23,7 +23,7 @@ namespace TelegramBot
         [Column(Name = "Comment")]
         public string Comment { get; set; }
        
-        private int index = 0;
+        private int index = 1;
 
         [Column(Name = "DateWriteRecord")]
         public DateTime DateWriteRecord { get; set; }

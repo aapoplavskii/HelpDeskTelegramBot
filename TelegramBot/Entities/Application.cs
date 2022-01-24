@@ -35,7 +35,7 @@ namespace TelegramBot
         [Column(Name = "IsDelete")]
         public bool IsDelete { get; set; }
 
-        private int index = 0;
+        private int index = 1;
 
         [Column(Name = "statewrite")]
         public int statewrite { get; set; }
@@ -52,7 +52,7 @@ namespace TelegramBot
 
         public override string ToString()
         {
-            return ID + ", тип - " + TypeApplication + ",\nтекст - " + Content;
+            return ID.ToString();
         }
 
 

@@ -9,13 +9,13 @@ namespace TelegramBot
     public interface IApplicationRepository
     {
         public Application FindItem(int id);
-        public Application AddNewApp(Employee employee);
-        public void ChangeState(Application application, int state);
-        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int state);
-        public void UpdateBuildingApp(Application app, Building building, int state);
-        public void UpdateRoomApp(Application app, string room);
-        public void UpdatePhoneApp(Application app, string phone);
-        public void UpdateContentApp(Application app, string content);
+        public Application AddNewApp(long chatID);
+        public void ChangeState(int appID, int state);
+        public void UpdateTypeApp(int appID, TypeApplication typeApplication);
+        public void UpdateBuildingApp(int appID, Building building);
+        public void UpdateRoomApp(int appID, string room);
+        public void UpdatePhoneApp(int appID, string phone);
+        public void UpdateContentApp(int appID, string content);
         public List<Application> GetListApp();
 
     }

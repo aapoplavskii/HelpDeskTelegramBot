@@ -16,8 +16,10 @@ namespace TelegramBot
         }
                 
 
-        public Application AddNewApp(Employee employee)
+        public Application AddNewApp(long chatID)
         {
+            var employee = Program.RepositoryEmployees.FindItemChatID(chatID);
+
             var newapp = new Application(employee);
             _applications.Add(newapp);
 
@@ -25,32 +27,48 @@ namespace TelegramBot
         
         }
 
-        public void ChangeState(Application application, int state)
+        public void ChangeState(int appID, int state)
         {
+            var application = FindItem(appID);
+
             application.statewrite = state;
         }
-        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int state)
+        public void UpdateTypeApp(int appID, TypeApplication typeApplication)
         {
+            var app = FindItem(appID);
+
             app.TypeApplication = typeApplication;
             app.TypeApplicationID = typeApplication.ID;
-            app.statewrite = state;    
             
         }
-        public void UpdateBuildingApp(Application app, Building building, int state)
+        public void UpdateBuildingApp(int appID, Building building)
         {
+            var app = FindItem(appID);
+
             app.Building = building;
             app.BuildingID = building.ID;
-            app.statewrite = state;
 
         }
 
-        public void UpdateRoomApp(Application app, string room) => app.Room = room;
-       
-        public void UpdatePhoneApp(Application app, string phone) => app.ContactTelephone = phone;
-        
+        public void UpdateRoomApp(int appID, string room)
+        {
+            var app = FindItem(appID);
 
-        public void UpdateContentApp(Application app, string content) => app.Content = content;
+            app.Room = room;
 
+        }
+        public void UpdatePhoneApp(int appID, string phone)
+        {
+
+            var app = FindItem(appID);
+            app.ContactTelephone = phone;
+        }
+
+        public void UpdateContentApp(int appID, string content)
+        {
+            var app = FindItem(appID);
+            app.Content = content;
+        }
         public List<Application> GetListApp() => _applications;
         
     }

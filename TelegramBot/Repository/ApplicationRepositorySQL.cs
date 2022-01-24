@@ -9,33 +9,37 @@ namespace TelegramBot
 {
     public class ApplicationRepositorySQL : IApplicationRepository
     {
-        public Application AddNewApp(Employee employee)
+        public Application AddNewApp(long chatID)
         {
+            var employee = Program.RepositoryEmployees.FindItemChatID(chatID);
+
             var newapp = new Application(employee);
 
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Insert(newapp);
+                var table = db.Insert(newapp);
             }
             return newapp;
         }
 
-        public void ChangeState(Application application, int state)
+        public void ChangeState(int appID, int state)
         {
+            var application = FindItem(appID);
+
             application.statewrite = state;
 
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Update(application.statewrite);
+                var table = db.Update(application);
             }
         }
 
         public Application FindItem(int id)
         {
             Application item = null;
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                item = Config.db.GetTable<Application>().FirstOrDefault(x => x.ID == id);
+                item = db.GetTable<Application>().FirstOrDefault(x => x.ID == id);
             }
 
             return item;
@@ -54,8 +58,10 @@ namespace TelegramBot
             }
         }
 
-        public void UpdateBuildingApp(Application app, Building building, int state)
+        public void UpdateBuildingApp(int appID, Building building)
         {
+            var app = FindItem(appID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 app.BuildingID = building.ID;
@@ -65,8 +71,10 @@ namespace TelegramBot
             }
         }
 
-        public void UpdateContentApp(Application app, string content)
+        public void UpdateContentApp(int appID, string content)
         {
+            var app = FindItem(appID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 app.Content = content;
@@ -76,8 +84,10 @@ namespace TelegramBot
             }
         }
 
-        public void UpdatePhoneApp(Application app, string phone)
+        public void UpdatePhoneApp(int appID, string phone)
         {
+            var app = FindItem(appID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 app.ContactTelephone = phone;
@@ -87,8 +97,10 @@ namespace TelegramBot
             }
         }
 
-        public void UpdateRoomApp(Application app, string room)
+        public void UpdateRoomApp(int appID, string room)
         {
+            var app = FindItem(appID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 app.Room = room;
@@ -98,12 +110,13 @@ namespace TelegramBot
             }
         }
 
-        public void UpdateTypeApp(Application app, TypeApplication typeApplication, int state)
+        public void UpdateTypeApp(int appID, TypeApplication typeApplication)
         {
+            var app = FindItem(appID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 app.TypeApplicationID = typeApplication.ID;
-                app.statewrite = state;
 
                 var table = db.Update(app);
 

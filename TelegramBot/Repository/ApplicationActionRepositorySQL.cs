@@ -14,9 +14,9 @@ namespace TelegramBot
             var ouremployee = Program.RepositoryEmployees.FindItem(employeeID);
             var newapp = new ApplicationAction(appID,employeeID);
             
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Insert(newapp);
+                var table = db.Insert(newapp);
             }
         }
 
@@ -24,9 +24,9 @@ namespace TelegramBot
         {
             applicationAction.ApplicationStateID = state.ID;
             
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Update(applicationAction);
+                var table = db.Update(applicationAction);
             }
         }
 
@@ -47,9 +47,9 @@ namespace TelegramBot
         {
             applicationAction.DateWriteRecord = dateTime;
 
-            using (Config.db)
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = Config.db.Update(applicationAction);
+                var table = db.Update(applicationAction);
             }
         }
     }
