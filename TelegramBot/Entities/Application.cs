@@ -35,7 +35,7 @@ namespace TelegramBot
         [Column(Name = "IsDelete")]
         public bool IsDelete { get; set; }
 
-        private int index = 1;
+        private int index = 2;
 
         [Column(Name = "statewrite")]
         public int statewrite { get; set; }

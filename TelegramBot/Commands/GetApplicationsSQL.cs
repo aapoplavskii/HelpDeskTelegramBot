@@ -46,10 +46,10 @@ namespace TelegramBot
                     switch (ouraction.ApplicationStateID)
                     {
                         case 1:
-                                messageapp.Add(message);
+                                messageapp.Add(message + ", исполнитель не назначен");
                             break;
                         case 2:
-                                messageapp.Add(message);
+                                messageapp.Add(message + ", исполнитель - " + Program.RepositoryEmployees.FindItem(ouraction.EmployeeID).FIO);
                             break;
 
                     }

@@ -9,6 +9,7 @@ namespace TelegramBot
     public interface IRepositoryEmployees
     {
         public Employee FindNameItem(string name);
+        public List<Employee> FindTechEmployee();
         public Employee FindItem(int id);
         public Employee FindItemChatID(long chatID);
         public int FindState(long chatID);

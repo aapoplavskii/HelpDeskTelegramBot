@@ -72,5 +72,8 @@ namespace TelegramBot
         }
 
         public List<Employee> GetListEmployee() => _employees;
+
+        public List<Employee> FindTechEmployee() => _employees.Where(x => x.IsExecutor).Select(s => s).ToList(); 
+       
     }
 }

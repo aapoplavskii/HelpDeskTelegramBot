@@ -10,10 +10,12 @@ namespace TelegramBot
     {
         private List<ApplicationAction> _applicationsAction { get; set; } = new List<ApplicationAction>();
 
-        public void AddNewAppAction(int appID, int employeeID)
+        public ApplicationAction AddNewAppAction(int appID, int employeeID)
         {
             var newappaction = new ApplicationAction(appID, employeeID);
             _applicationsAction.Add(newappaction);
+
+            return newappaction;
         
         }
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)

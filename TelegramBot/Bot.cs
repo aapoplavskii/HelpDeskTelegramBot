@@ -568,8 +568,8 @@ namespace TelegramBot
                     Program.RepositoryApplications.UpdateContentApp(newappID, messageText);
                     Program.RepositoryApplications.ChangeState(newappID, 6);
 
-                    //TODO создать запись в таблице движения заявок
-                    Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID);
+                    
+                    var newappaction = Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID);
 
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
@@ -586,12 +586,32 @@ namespace TelegramBot
                         },
                         cancellationToken: cancellationToken);
 
+                    var textfortechemployee = Commands.ReturnTextMessageForTechEmployee(newappaction);
+
+                    await SendMessageForTechEmployee(textfortechemployee, botClient, cancellationToken);
+
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
                     break;
 
 
             }
 
+        }
+
+        private async Task SendMessageForTechEmployee(string textfortechemployee, ITelegramBotClient botClient, CancellationToken cancellationToken)
+        {
+            
+
+            var listtechemployee = Program.RepositoryEmployees.FindTechEmployee();
+
+            foreach (var item in listtechemployee)
+            {          
+                await botClient.SendTextMessageAsync(
+                                chatId: item.Chat_ID,
+                                text: textfortechemployee + 
+                                      "\nВзять в работу /take",
+                                cancellationToken: cancellationToken);
+            }
         }
 
         private async Task RegNewUser(ITelegramBotClient botClient, CancellationToken cancellationToken,

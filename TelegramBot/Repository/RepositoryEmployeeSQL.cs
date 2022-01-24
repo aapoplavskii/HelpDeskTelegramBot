@@ -77,6 +77,19 @@ namespace TelegramBot
             return state;
         }
 
+        public List<Employee> FindTechEmployee()
+        {
+            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
+            {
+
+                var table = db.GetTable<Employee>().Where(x => x.IsExecutor).Select(s => s);
+                var list = table.ToList();
+                return list;
+
+
+            }
+        }
+
         public List<Employee> GetListEmployee()
         {
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))

@@ -8,10 +8,14 @@ namespace TelegramBot
 {
     public static class Commands
     {
-        public static void SendAppForTechEmployee()
-        { 
-            
-        
+        public static string ReturnTextMessageForTechEmployee(ApplicationAction newapp)
+        {
+            var ouremployee = Program.RepositoryEmployees.FindItem(newapp.EmployeeID);
+
+            var mes = $"Новая заявка id = {newapp.ID} от {ouremployee} ( {Program.RepositoryEmployees.FindItem(ouremployee.DepartmentID)})" +
+                    $"\nтекст - {Program.RepositoryApplications.FindItem(newapp.AppID).Content}";
+
+            return mes;
         
         }
 

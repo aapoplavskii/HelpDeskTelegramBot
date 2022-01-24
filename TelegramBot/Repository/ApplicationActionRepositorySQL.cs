@@ -9,7 +9,7 @@ namespace TelegramBot
 {
     public class ApplicationActionRepositorySQL : IApplicationActionRepository
     {
-        public void AddNewAppAction(int appID, int employeeID)
+        public ApplicationAction AddNewAppAction(int appID, int employeeID)
         {
             var ouremployee = Program.RepositoryEmployees.FindItem(employeeID);
             var newapp = new ApplicationAction(appID,employeeID);
@@ -18,6 +18,8 @@ namespace TelegramBot
             {
                 var table = db.Insert(newapp);
             }
+
+            return newapp;
         }
 
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)
