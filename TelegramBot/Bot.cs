@@ -318,6 +318,9 @@ namespace TelegramBot
 
         private async Task HandleMessage(Update update, CancellationToken cancellationToken, ITelegramBotClient botClient)
         {
+            ICommand command = null;
+            Response response = null;
+
             if (update.Type != UpdateType.Message)
                 return;
 
@@ -353,6 +356,46 @@ namespace TelegramBot
                     case State.newapp:
 
                         await RegNewApp(botClient, cancellationToken, chatId, update, ouremployee);
+                        break;
+
+                    case State.takeapp:
+
+                        if (int.TryParse(messageText, out int appID))
+                        {
+                            var newappaction = Program.RepositoryApplicationActions.AddNewAppAction(appID, ouremployee.ID);
+                            var stateid = Program.RepositoryApplicationState.FindItem(2);
+
+                            Program.RepositoryApplicationActions.ChangeState(newappaction, stateid);
+                            
+                            Program.RepositoryApplicationActions.SetDate(newappaction, DateTime.Now);
+                            
+                            _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
+                            
+                        }
+                        else
+                        {
+                            await botClient.SendTextMessageAsync(
+                                chatId: chatId,
+                                text: "Введите номер заявки цифрами!",
+                                cancellationToken: cancellationToken);
+                        }
+                        break;
+
+                    default:
+                        await botClient.SendTextMessageAsync(
+                                chatId: chatId,
+                                text: "Выберите задачу на панели!",
+                                replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
+                        {
+                                new KeyboardButton("Подать новую заявку"),
+                                new KeyboardButton("Посмотреть неисполненные заявки"),
+
+                        })
+                                {
+                                    ResizeKeyboard = true,
+                                    OneTimeKeyboard = true,
+                                },
+                                cancellationToken: cancellationToken);
                         break;
 
                 }
@@ -452,22 +495,22 @@ namespace TelegramBot
                             }
                             break;
                         }
-                    //default:
-                    //    await botClient.SendTextMessageAsync(
-                    //            chatId: chatId,
-                    //            text: "Выберите задачу на панели!",
-                    //            replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
-                    //    {
-                    //        new KeyboardButton("Подать новую заявку"),
-                    //        new KeyboardButton("Посмотреть неисполненные заявки"),
+                            case "/take":
+                        {
+                            command = new TakeCommand();
+                            response = await command.Execute(update);
 
-                    //    })
-                    //            {
-                    //                ResizeKeyboard = true,
-                    //                OneTimeKeyboard = true,
-                    //            },
-                    //            cancellationToken: cancellationToken);
-                    //    break;
+                            await botClient.SendTextMessageAsync(
+                                chatId: chatId,
+                                text: response.Message,
+                                cancellationToken: cancellationToken);
+
+                            _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
+
+                            break;
+                        }
+
+                    
 
                 }
             }
@@ -585,12 +628,12 @@ namespace TelegramBot
                             OneTimeKeyboard = true,
                         },
                         cancellationToken: cancellationToken);
+                                        
 
-                    var textfortechemployee = Commands.ReturnTextMessageForTechEmployee(newappaction);
-
-                    await SendMessageForTechEmployee(textfortechemployee, botClient, cancellationToken);
+                    await Commands.SendMessageForTechEmployee(newappaction, botClient, cancellationToken);
 
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
+                    
                     break;
 
 
@@ -598,21 +641,7 @@ namespace TelegramBot
 
         }
 
-        private async Task SendMessageForTechEmployee(string textfortechemployee, ITelegramBotClient botClient, CancellationToken cancellationToken)
-        {
-            
-
-            var listtechemployee = Program.RepositoryEmployees.FindTechEmployee();
-
-            foreach (var item in listtechemployee)
-            {          
-                await botClient.SendTextMessageAsync(
-                                chatId: item.Chat_ID,
-                                text: textfortechemployee + 
-                                      "\nВзять в работу /take",
-                                cancellationToken: cancellationToken);
-            }
-        }
+        
 
         private async Task RegNewUser(ITelegramBotClient botClient, CancellationToken cancellationToken,
                                         long chatId, Update update, Employee ouremployee)

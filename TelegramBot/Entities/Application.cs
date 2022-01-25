@@ -1,9 +1,5 @@
 ﻿using LinqToDB.Mapping;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -11,7 +7,7 @@ namespace TelegramBot
     public class Application : BaseEntity
     {
         public TypeApplication TypeApplication { get; set; }
-        
+
         [Column(Name = "TypeApplicationID")]
         public int TypeApplicationID { get; set; }
         public Employee Employee { get; set; }
@@ -35,20 +31,17 @@ namespace TelegramBot
         [Column(Name = "IsDelete")]
         public bool IsDelete { get; set; }
 
-        private int index = 2;
-
         [Column(Name = "statewrite")]
         public int statewrite { get; set; }
         public Application(Employee employee)
         {
-            ID = index++;
             Employee = employee;
             EmployeeID = employee.ID;
             statewrite = 0;
             IsDelete = true;
         }
 
-        public Application() {}
+        public Application() { }
 
         public override string ToString()
         {

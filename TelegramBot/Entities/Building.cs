@@ -2,17 +2,17 @@
 
 namespace TelegramBot
 {
-    [Table (Name = "Building")]
-    public class Building: BaseEntity
+    [Table(Name = "Building")]
+    public class Building : BaseEntity
     {
-        [Column (Name = "Name")]
+        [Column(Name = "Name")]
         public string Name { get; set; }
 
         public Building(int id, string name)
-        { 
+        {
             ID = id;
             Name = name;
-        
+
         }
 
         public Building() { }

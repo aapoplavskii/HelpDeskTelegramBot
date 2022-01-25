@@ -2,8 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -11,9 +9,9 @@ namespace TelegramBot
     {
         public ApplicationAction AddNewAppAction(int appID, int employeeID)
         {
-            var ouremployee = Program.RepositoryEmployees.FindItem(employeeID);
-            var newapp = new ApplicationAction(appID,employeeID);
-            
+           
+            var newapp = new ApplicationAction(appID, employeeID);
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var table = db.Insert(newapp);
@@ -25,7 +23,7 @@ namespace TelegramBot
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)
         {
             applicationAction.ApplicationStateID = state.ID;
-            
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var table = db.Update(applicationAction);

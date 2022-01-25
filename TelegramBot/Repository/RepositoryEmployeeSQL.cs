@@ -1,9 +1,6 @@
 ﻿using LinqToDB;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -25,7 +22,7 @@ namespace TelegramBot
             var employee = FindItemChatID(chatID);
 
             employee.State = state;
-            
+
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 var table = db.Update(employee);
@@ -37,7 +34,7 @@ namespace TelegramBot
             Employee item = null;
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-               item = db.GetTable<Employee>().FirstOrDefault(x => x.ID == id);
+                item = db.GetTable<Employee>().FirstOrDefault(x => x.ID == id);
             }
 
             return item;
@@ -49,7 +46,7 @@ namespace TelegramBot
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 item = db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID);
-               
+
             }
 
             return item;
@@ -68,7 +65,7 @@ namespace TelegramBot
 
         public int FindState(long chatID)
         {
-           int state = 0;
+            int state = 0;
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
                 state = db.GetTable<Employee>().FirstOrDefault(x => x.Chat_ID == chatID).State;
@@ -111,7 +108,7 @@ namespace TelegramBot
                 employee.DepartmentID = department.ID;
 
                 var table = db.Update(employee);
-                
+
             }
         }
 

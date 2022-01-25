@@ -21,6 +21,7 @@ namespace TelegramBot
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)
         {
             applicationAction.ApplicationState = state;
+
         }
      
         public void SetDate(ApplicationAction applicationAction, DateTime dateTime)
