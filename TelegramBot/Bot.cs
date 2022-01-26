@@ -360,7 +360,7 @@ namespace TelegramBot
 
                     case State.takeapp:
 
-                        command = new TakeCommand(_clientStates);
+                        command = new TakeAppCommand(_clientStates, ouremployee.ID);
                         response = await command.Execute(update);
 
 

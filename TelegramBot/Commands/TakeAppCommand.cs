@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
-namespace TelegramBot.Commands
+namespace TelegramBot
 {
     public class TakeAppCommand: ICommand
     {
@@ -13,7 +13,7 @@ namespace TelegramBot.Commands
         private int _employeeID;
         public TakeAppCommand(Dictionary<long, UserStates> clientStates, int employeeID)
         {
-            if (_clientStates == null)
+            if (clientStates == null)
             {
                 throw new ArgumentNullException(nameof(clientStates));
             }
@@ -25,7 +25,7 @@ namespace TelegramBot.Commands
 
         }
 
-        public async Task<Response> Execute(Update update)
+        public Task<Response> Execute(Update update)
         {
             var chatId = update.Message.Chat.Id;
             var messageText = update.Message.Text;
@@ -36,13 +36,13 @@ namespace TelegramBot.Commands
 
                 _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
 
-                return new Response { Message = $"Заявка № {appID} взята в работу!" };
+                return Task.FromResult(new Response { Message = $"Заявка № {appID} взята в работу!" });
             }
             else
             { 
             _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
 
-            return new Response { Message = "Введите номер заявки цифрами!" };
+            return Task.FromResult(new Response { Message = "Введите номер заявки цифрами!" });
             }
 
 

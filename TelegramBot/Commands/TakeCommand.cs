@@ -12,7 +12,7 @@ namespace TelegramBot
         private Dictionary<long, UserStates> _clientStates;
         public TakeCommand(Dictionary<long, UserStates> clientStates)
         {
-            if (_clientStates == null)
+            if (clientStates == null)
             { 
                 throw new ArgumentNullException(nameof(clientStates));
             }
@@ -21,13 +21,13 @@ namespace TelegramBot
         
         }
 
-        public async Task<Response> Execute(Update update)
+        public Task<Response> Execute(Update update)
         {
             var chatId = update.Message.Chat.Id;
 
             _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
 
-            return new Response { Message = "Введите номер заявки" };
+            return Task.FromResult(new Response { Message = "Введите номер заявки" });
         }
     }
 
