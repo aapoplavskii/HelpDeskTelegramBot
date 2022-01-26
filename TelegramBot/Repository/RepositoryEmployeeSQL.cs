@@ -12,7 +12,11 @@ namespace TelegramBot
 
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = db.Insert(newemployee);
+
+                var table = db.GetTable<Employee>();
+                table.Value(p => p.Chat_ID, chatID)
+                     .Value(p => p.State, 0)
+                     .Insert();
             }
 
         }

@@ -10,12 +10,20 @@ namespace TelegramBot
         {
             var employee = Program.RepositoryEmployees.FindItemChatID(chatID);
 
-            var newapp = new Application(employee);
+            int appID = 0;
 
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = db.Insert(newapp);
+                var table = db.GetTable<Application>();
+                table.Value(p => p.EmployeeID, employee.ID)
+                     .Value(p => p.statewrite, 0)
+                     .Value(p => p.IsDelete, true)
+                     .Insert();
+                appID = table.Max(x => x.ID);
             }
+
+            var newapp = FindItem(appID);
+
             return newapp;
         }
 
