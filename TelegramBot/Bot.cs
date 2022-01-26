@@ -360,25 +360,15 @@ namespace TelegramBot
 
                     case State.takeapp:
 
-                        if (int.TryParse(messageText, out int appID))
-                        {
-                            var newappaction = Program.RepositoryApplicationActions.AddNewAppAction(appID, ouremployee.ID);
-                            var stateid = Program.RepositoryApplicationState.FindItem(2);
+                        command = new TakeCommand(_clientStates);
+                        response = await command.Execute(update);
 
-                            Program.RepositoryApplicationActions.ChangeState(newappaction, stateid);
-                            
-                            Program.RepositoryApplicationActions.SetDate(newappaction, DateTime.Now);
-                            
-                            _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
-                            
-                        }
-                        else
-                        {
-                            await botClient.SendTextMessageAsync(
+
+                        await botClient.SendTextMessageAsync(
                                 chatId: chatId,
-                                text: "Введите номер заявки цифрами!",
+                                text: response.Message,
                                 cancellationToken: cancellationToken);
-                        }
+                      
                         break;
 
                     default:
@@ -497,16 +487,14 @@ namespace TelegramBot
                         }
                             case "/take":
                         {
-                            command = new TakeCommand();
+                            command = new TakeCommand(_clientStates);
                             response = await command.Execute(update);
 
                             await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: response.Message,
                                 cancellationToken: cancellationToken);
-
-                            _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
-
+                                                        
                             break;
                         }
 
@@ -552,6 +540,7 @@ namespace TelegramBot
                     }
                 }));
                     break;
+                    //TODO: сделать вывод всех inlinekeyboard и keyboardbutton через базу. Значения получать из таблиц и формировать List
                 case 1:
                     Program.RepositoryApplications.ChangeState(newappID, 2);
 
@@ -612,7 +601,7 @@ namespace TelegramBot
                     Program.RepositoryApplications.ChangeState(newappID, 6);
 
                     
-                    var newappaction = Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID);
+                    Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID, 1);
 
                     await botClient.SendTextMessageAsync(
                         chatId: chatId,
@@ -630,7 +619,7 @@ namespace TelegramBot
                         cancellationToken: cancellationToken);
                                         
 
-                    await Commands.SendMessageForTechEmployee(newappaction, botClient, cancellationToken);
+                    await Command.SendMessageForTechEmployee(_clientStates[chatId].Value, ouremployee.ID, botClient, cancellationToken);
 
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
                     

@@ -8,7 +8,7 @@ namespace TelegramBot
 {
     public interface IApplicationActionRepository
     {
-        public ApplicationAction AddNewAppAction(int appID, int employeeID);
+        public void AddNewAppAction(int appID, int employeeID, int stateID);
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state);
 
         public void SetDate(ApplicationAction applicationAction, DateTime dateTime);

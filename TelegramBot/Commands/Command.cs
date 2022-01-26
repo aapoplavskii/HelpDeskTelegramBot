@@ -8,25 +8,25 @@ using Telegram.Bot;
 
 namespace TelegramBot
 {
-    public static class Commands
+    public static class Command
     {
-        private static string ReturnTextMessageForTechEmployee(ApplicationAction newapp)
+        private static string ReturnTextMessageForTechEmployee(int appID, int employeeID)
         {
-            var ouremployee = Program.RepositoryEmployees.FindItem(newapp.EmployeeID);
+            var ouremployee = Program.RepositoryEmployees.FindItem(employeeID);
 
-            var ourapp = Program.RepositoryApplications.FindItem(newapp.AppID);
+            var ourapp = Program.RepositoryApplications.FindItem(appID);
 
-            var mes = $"Новая заявка id = {newapp.ID} от {ouremployee} ( {Program.RepositoryDepartment.FindItem(ouremployee.DepartmentID)})" +
+            var mes = $"Новая заявка id = {appID} от {ouremployee} ( {Program.RepositoryDepartment.FindItem(ouremployee.DepartmentID)})" +
                     $"\n({Program.RepositoryBuildings.FindItem(ourapp.BuildingID)}, {ourapp.Room}, {ourapp.ContactTelephone})" +
-                    $"\nтекст - {Program.RepositoryApplications.FindItem(newapp.AppID).Content}";
+                    $"\nтекст - {Program.RepositoryApplications.FindItem(appID).Content}";
 
             return mes;
         
         }
 
-        public static async Task SendMessageForTechEmployee(ApplicationAction newappaction, ITelegramBotClient botClient, CancellationToken cancellationToken)
+        public static async Task SendMessageForTechEmployee(int appID, int employeeID, ITelegramBotClient botClient, CancellationToken cancellationToken)
         {
-            var textfortechemployee = ReturnTextMessageForTechEmployee(newappaction);
+            var textfortechemployee = ReturnTextMessageForTechEmployee(appID, employeeID);
 
             var listtechemployee = Program.RepositoryEmployees.FindTechEmployee();
 
@@ -40,10 +40,7 @@ namespace TelegramBot
             }
         }
 
-        //public static async Task GetAppForTechEmployee()
-        //{ 
         
-        //}
 
     }
 }

@@ -7,17 +7,22 @@ namespace TelegramBot
 {
     public class ApplicationActionRepositorySQL : IApplicationActionRepository
     {
-        public ApplicationAction AddNewAppAction(int appID, int employeeID)
+        public void AddNewAppAction(int appID, int employeeID, int stateID)
         {
-           
-            var newapp = new ApplicationAction(appID, employeeID);
+            
 
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                var table = db.Insert(newapp);
+                var table = db.GetTable<ApplicationAction>();
+                table.Value(p => p.AppID, appID)
+                     .Value(p => p.EmployeeID, employeeID)  
+                     .Value(p => p.ApplicationStateID, stateID)
+                     .Value(p => p.DateWriteRecord, DateTime.Now)
+                     .Insert();
+                
+
             }
 
-            return newapp;
         }
 
         public void ChangeState(ApplicationAction applicationAction, ApplicationState state)
