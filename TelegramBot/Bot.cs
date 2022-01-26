@@ -79,6 +79,8 @@ namespace TelegramBot
 
                     }
 
+                    //TODO: вынести обработку ответов в отдельные команды исходя из состояния чата
+
                     switch (update.CallbackQuery.Data)
                     {
 
@@ -344,7 +346,7 @@ namespace TelegramBot
 
             var messageText = update.Message.Text;
 
-            
+            //TODO: вынести все команды в отдельные классы
             if (statechat.State != State.none)
             {
                 switch (statechat.State)
