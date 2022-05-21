@@ -3,8 +3,12 @@
 namespace TelegramBot
 {
     [Table(Name = "Employee")]
-    public class Employee : BaseEntity
+    public class Employee
     {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public int ID { get; set; }
+
         [Column(Name = "FIO")]
         public string FIO { get; set; }
 

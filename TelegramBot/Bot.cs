@@ -8,6 +8,7 @@ using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Commands;
 
 namespace TelegramBot
 {
@@ -16,6 +17,23 @@ namespace TelegramBot
         private TelegramBotClient bot;
 
         private Dictionary<long, UserStates> _clientStates = new Dictionary<long, UserStates>();
+
+        public static IRepositoryEmployees _repositoryEmployees = new RepositoryEmployeeSQL();
+
+        public static IApplicationRepository _repositoryApplications = new ApplicationRepositorySQL();
+
+        public static IApplicationActionRepository _repositoryApplicationActions = new ApplicationActionRepositorySQL();
+
+        public static IRepositoryAdditionalDatabases<PositionEmployee> _repositoryPositions = new RepositoryAdditionalDatabasesSQL<PositionEmployee>();
+
+        public static IRepositoryAdditionalDatabases<Department> _repositoryDepartment = new RepositoryAdditionalDatabasesSQL<Department>();
+
+        public static IRepositoryAdditionalDatabases<Building> _repositoryBuildings = new RepositoryAdditionalDatabasesSQL<Building>();
+
+        public static IRepositoryAdditionalDatabases<TypeApplication> _repositoryTypeApplication = new RepositoryAdditionalDatabasesSQL<TypeApplication>();
+
+        public static IRepositoryAdditionalDatabases<ApplicationState> _repositoryApplicationState = new RepositoryAdditionalDatabasesSQL<ApplicationState>();
+              
 
         public void InitBot()
         {
@@ -63,18 +81,22 @@ namespace TelegramBot
             TypeApplication typeApplication;
             Application newapp;
 
+            RegNewUserCommand regNewUserCommand = new RegNewUserCommand(_repositoryEmployees,_repositoryPositions,_repositoryDepartment,_clientStates);
+
+            RegNewAppCommand regNewAppCommand = new RegNewAppCommand(_repositoryApplications, _repositoryApplicationActions, _clientStates);
+
             switch (update.Type)
             {
 
                 case UpdateType.CallbackQuery:
 
-                    ouremployee = Program.RepositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
+                    ouremployee = _repositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
 
                     if (ouremployee == null)
                     {
 
-                        Program.RepositoryEmployees.AddNewEmployee(update.CallbackQuery.Message.Chat.Id);
-                        ouremployee = Program.RepositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
+                        _repositoryEmployees.AddNewEmployee(update.CallbackQuery.Message.Chat.Id);
+                        ouremployee = _repositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
                         _clientStates[update.CallbackQuery.Message.Chat.Id] = new UserStates { State = State.newemployee, Value = ouremployee.ID };
 
                     }
@@ -87,215 +109,215 @@ namespace TelegramBot
 
                         case "/медицина":
 
-                            position = Program.RepositoryPositions.FindItem(1);
+                            position = _repositoryPositions.FindItem(1);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/общие":
 
-                            position = Program.RepositoryPositions.FindItem(2);
+                            position = _repositoryPositions.FindItem(2);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/наука":
 
-                            position = Program.RepositoryPositions.FindItem(3);
+                            position = _repositoryPositions.FindItem(3);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/инженер":
 
-                            position = Program.RepositoryPositions.FindItem(4);
+                            position = _repositoryPositions.FindItem(4);
 
-                            Program.RepositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
 
                         case "/администрация":
 
-                            department = Program.RepositoryDepartment.FindItem(1);
+                            department = _repositoryDepartment.FindItem(1);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/поликлиника":
 
-                            department = Program.RepositoryDepartment.FindItem(2);
+                            department = _repositoryDepartment.FindItem(2);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/клиника":
 
-                            department = Program.RepositoryDepartment.FindItem(3);
+                            department = _repositoryDepartment.FindItem(3);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/наука_отдел":
 
-                            department = Program.RepositoryDepartment.FindItem(4);
+                            department = _repositoryDepartment.FindItem(4);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/диагностика":
 
-                            department = Program.RepositoryDepartment.FindItem(5);
+                            department = _repositoryDepartment.FindItem(5);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/кафедра":
 
-                            department = Program.RepositoryDepartment.FindItem(6);
+                            department = _repositoryDepartment.FindItem(6);
 
-                            Program.RepositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
                             break;
                         case "/да":
 
-                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, true);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, true);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/нет":
 
-                            Program.RepositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, false);
-                            await RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            _repositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, false);
+                            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/ремонт":
 
-                            typeApplication = Program.RepositoryTypeApplication.FindItem(1);
+                            typeApplication = _repositoryTypeApplication.FindItem(1);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
+                                _repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/сеть":
 
-                            typeApplication = Program.RepositoryTypeApplication.FindItem(2);
+                            typeApplication = _repositoryTypeApplication.FindItem(2);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
+                                _repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/МИС":
 
-                            typeApplication = Program.RepositoryTypeApplication.FindItem(3);
+                            typeApplication = _repositoryTypeApplication.FindItem(3);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
+                                _repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/прочее":
 
-                            typeApplication = Program.RepositoryTypeApplication.FindItem(4);
+                            typeApplication = _repositoryTypeApplication.FindItem(4);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
+                                _repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
 
                         case "/2.1":
 
-                            building = Program.RepositoryBuildings.FindItem(1);
+                            building = _repositoryBuildings.FindItem(1);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/2.2":
 
-                            building = Program.RepositoryBuildings.FindItem(2);
+                            building = _repositoryBuildings.FindItem(2);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/2.3":
 
-                            building = Program.RepositoryBuildings.FindItem(3);
+                            building = _repositoryBuildings.FindItem(3);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/3":
 
-                            building = Program.RepositoryBuildings.FindItem(4);
+                            building = _repositoryBuildings.FindItem(4);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/5":
 
-                            building = Program.RepositoryBuildings.FindItem(5);
+                            building = _repositoryBuildings.FindItem(5);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
                         case "/7":
 
-                            building = Program.RepositoryBuildings.FindItem(6);
+                            building = _repositoryBuildings.FindItem(6);
 
-                            newapp = Program.RepositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+                            newapp = _repositoryApplications.FindItem(_clientStates[update.CallbackQuery.Message.Chat.Id].Value);
 
                             if (newapp != null)
-                                Program.RepositoryApplications.UpdateBuildingApp(newapp.ID, building);
+                                _repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-                            await RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+                            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
 
                             break;
 
@@ -322,6 +344,7 @@ namespace TelegramBot
         {
             ICommand command = null;
             Response response = null;
+            RegNewUserCommand regNewUserCommand = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates);
 
 
             if (update.Type != UpdateType.Message)
@@ -332,13 +355,13 @@ namespace TelegramBot
 
             var chatId = update.Message.Chat.Id;
 
-            var ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
+            var ouremployee = _repositoryEmployees.FindItemChatID(chatId);
 
             if (ouremployee == null)
             {
 
-                Program.RepositoryEmployees.AddNewEmployee(chatId);
-                ouremployee = Program.RepositoryEmployees.FindItemChatID(chatId);
+                _repositoryEmployees.AddNewEmployee(chatId);
+                ouremployee = _repositoryEmployees.FindItemChatID(chatId);
                 _clientStates[chatId] = new UserStates { State = State.newemployee, Value = ouremployee.ID };
 
             }
@@ -353,7 +376,7 @@ namespace TelegramBot
                 switch (statechat.State)
                 {
                     case State.newemployee:
-                        await RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
+                        await regNewUserCommand.RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
                         break;
 
                     case State.newapp:
@@ -363,7 +386,7 @@ namespace TelegramBot
 
                     case State.takeapp:
 
-                        command = new TakeAppCommand(_clientStates, ouremployee.ID, Program.RepositoryApplicationActions);
+                        command = new TakeAppCommand(_clientStates, ouremployee.ID, _repositoryApplicationActions);
                         response = await command.Execute(update);
 
 
@@ -408,7 +431,7 @@ namespace TelegramBot
                                          text: "Необходимо пройти регистрацию",
                                          cancellationToken: cancellationToken);
                         }
-                        await RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
+                        await regNewUserCommand.RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
 
                         break;
                     case "Подать новую заявку":
@@ -420,10 +443,10 @@ namespace TelegramBot
                                              chatId: chatId,
                                              text: "Необходимо пройти регистрацию",
                                              cancellationToken: cancellationToken);
-                                await RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
+                                await regNewUserCommand.RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
                             }
 
-                            var newApp = Program.RepositoryApplications.AddNewApp(chatId);
+                            var newApp = _repositoryApplications.AddNewApp(chatId);
 
                             _clientStates[chatId] = new UserStates { State = State.newapp, Value = newApp.ID };
 
@@ -508,242 +531,9 @@ namespace TelegramBot
 
         }
 
-        private async Task RegNewApp(ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, Update update, Employee ouremployee)
-        {
-            var newappID = _clientStates[chatId].Value;
+        
 
-            var statewrite = Program.RepositoryApplications.FindItem(_clientStates[chatId].Value).statewrite;
-            var messageText = "";
-
-            if (update.Message != null)
-            {
-                messageText = update.Message.Text;
-            }
-
-            switch (statewrite)
-            {
-                case 0:
-
-                    Program.RepositoryApplications.ChangeState(newappID, 1);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Выберите тип заявки",
-                                cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
-
-                        InlineKeyboardButton.WithCallbackData("Ремонт техники", "/ремонт"),
-                        InlineKeyboardButton.WithCallbackData("Проблемы с сетью", "/сеть")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("Проблемы с МИС", "/МИС"),
-                        InlineKeyboardButton.WithCallbackData("Просто спросить/прочее", "/прочее")
-                    }
-                }));
-                    break;
-                //TODO: сделать вывод всех inlinekeyboard и keyboardbutton через базу. Значения получать из таблиц и формировать List
-                case 1:
-                    Program.RepositoryApplications.ChangeState(newappID, 2);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Выберите номер корпуса",
-                                cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
-
-                        InlineKeyboardButton.WithCallbackData("2.1", "/2.1"),
-                        InlineKeyboardButton.WithCallbackData("2.2", "/2.2"),
-                        InlineKeyboardButton.WithCallbackData("2.3", "/2.3")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("3", "/3"),
-                        InlineKeyboardButton.WithCallbackData("5", "/5"),
-                        InlineKeyboardButton.WithCallbackData("7", "/7")
-                    }
-                }));
-                    break;
-                case 2:
-                    Program.RepositoryApplications.ChangeState(newappID, 3);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Введите номер кабинета",
-                                cancellationToken: cancellationToken);
-                    Program.RepositoryApplications.ChangeState(newappID, 3);
-                    break;
-                case 3:
-                    Program.RepositoryApplications.ChangeState(newappID, 4);
-
-                    Program.RepositoryApplications.UpdateRoomApp(newappID, messageText);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Введите контактный телефон",
-                                cancellationToken: cancellationToken);
-                    Program.RepositoryApplications.ChangeState(newappID, 4);
-                    break;
-                case 4:
-                    Program.RepositoryApplications.ChangeState(newappID, 5);
-
-                    Program.RepositoryApplications.UpdatePhoneApp(newappID, messageText);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Введите текст заявки",
-                                cancellationToken: cancellationToken);
-                    Program.RepositoryApplications.ChangeState(newappID, 5);
-                    break;
-                case 5:
-                    Program.RepositoryApplications.ChangeState(newappID, 6);
-
-                    Program.RepositoryApplications.UpdateContentApp(newappID, messageText);
-                    Program.RepositoryApplications.ChangeState(newappID, 6);
-
-
-                    Program.RepositoryApplicationActions.AddNewAppAction(_clientStates[chatId].Value, ouremployee.ID, 1);
-
-                    await botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Ваша заявка направлена в IT отдел.\nДля новой задачи воспользуйтесь меню!",
-                        replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
-                        {
-                            new KeyboardButton("Подать новую заявку"),
-                            new KeyboardButton("Посмотреть неисполненные заявки"),
-
-                        })
-                        {
-                            ResizeKeyboard = true,
-                            OneTimeKeyboard = true,
-                        },
-                        cancellationToken: cancellationToken);
-
-
-                    await Command.SendMessageForTechEmployee(_clientStates[chatId].Value, ouremployee.ID, botClient, cancellationToken);
-
-                    _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
-
-                    break;
-
-
-            }
-
-        }
-
-
-
-        private async Task RegNewUser(ITelegramBotClient botClient, CancellationToken cancellationToken,
-                                        long chatId, Update update, Employee ouremployee)
-        {
-            var stateuser = ouremployee.State;
-
-            switch (stateuser)
-            {
-                case 0:
-
-                    Program.RepositoryEmployees.ChangeState(chatId, 1);
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Для регистрации введите ФИО!",
-                                cancellationToken: cancellationToken);
-
-                    break;
-                case 1:
-                    Program.RepositoryEmployees.UpdateFIOEmployee(chatId, update.Message.Text.ToString());
-                    Program.RepositoryEmployees.ChangeState(chatId, 2);
-
-                    var buttons = Program.RepositoryPositions.GetInlineKeyboardButtons();//TODO: перепроверить получение кнопок из базы, а также алгоритм построения линий кнопок
-
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Выберите должность",
-                                cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(buttons));
-
-                    //    new List<List<InlineKeyboardButton>>()
-                    //{
-                    //    new List<InlineKeyboardButton>() {
-
-                    //        InlineKeyboardButton.WithCallbackData("Медицинский сотрудник", "/медицина"),
-                    //        InlineKeyboardButton.WithCallbackData("Общебольничный персонал", "/общие")
-                    //    },
-                    //    new List<InlineKeyboardButton>() {
-                    //        InlineKeyboardButton.WithCallbackData("Научный сотрудник", "/наука"),
-                    //        InlineKeyboardButton.WithCallbackData("Медицинский инженер", "/инженер")
-                    //    }
-                    //})
-
-                    break;
-
-
-                case 2:
-                    Program.RepositoryEmployees.ChangeState(chatId, 3);
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Выберите подразделение",
-                                cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
-
-                        InlineKeyboardButton.WithCallbackData("Администрация", "/администрация"),
-                        InlineKeyboardButton.WithCallbackData("Поликлиника", "/поликлиника"),
-                        InlineKeyboardButton.WithCallbackData("Клиника", "/клиника")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("Наука", "/наука_отдел"),
-                        InlineKeyboardButton.WithCallbackData("Диагностика", "/диагностика"),
-                        InlineKeyboardButton.WithCallbackData("Кафедра", "/кафедра")
-                    }
-                }));
-
-                    break;
-                case 3:
-                    Program.RepositoryEmployees.ChangeState(chatId, 4);
-                    await botClient.SendTextMessageAsync(
-                                chatId: chatId,
-                                text: "Являетесь ли Вы исполнителем заявок?",
-                                cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
-                {
-
-
-                        InlineKeyboardButton.WithCallbackData("Да", "/да"),
-                        InlineKeyboardButton.WithCallbackData("Нет", "/нет"),
-
-
-                }));
-
-                    break;
-                case 4:
-                    await botClient.SendTextMessageAsync(
-                        chatId: chatId,
-                        text: "Выберите задачу",
-                        replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
-                        {
-                            new KeyboardButton("Подать новую заявку"),
-                            new KeyboardButton("Посмотреть неисполненные заявки"),
-
-                        })
-                        {
-                            ResizeKeyboard = true,
-                            OneTimeKeyboard = true,
-                        },
-                        cancellationToken: cancellationToken);
-
-                    _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
-
-                    break;
-
-                default:
-                    break;
-
-            }
-        }
+        
     }
 }
 
