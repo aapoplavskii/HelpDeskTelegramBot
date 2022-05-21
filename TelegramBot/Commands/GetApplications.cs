@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -14,10 +11,10 @@ namespace TelegramBot
 
 
             var listuserapp = (from application in Program.RepositoryApplications.GetListApp()
-                              join employee in Program.RepositoryEmployees.GetListEmployee() on application.EmployeeID equals employee.ID
-                              where employee.Chat_ID == chatid
-                              select application.ID).ToList();
-            
+                               join employee in Program.RepositoryEmployees.GetListEmployee() on application.EmployeeID equals employee.ID
+                               where employee.Chat_ID == chatid
+                               select application.ID).ToList();
+
             foreach (var item in listuserapp)
             {
                 var ouraction = Program.RepositoryApplicationActions.GetListApp().Where(s => s.AppID == item).
@@ -35,13 +32,13 @@ namespace TelegramBot
                             break;
                         case 2:
                             listapp.Add(ouraction);
-                            break;                  
-                    
-                    } 
-                    
+                            break;
+
+                    }
+
                 }
             }
-            
+
             return listapp;
 
         }

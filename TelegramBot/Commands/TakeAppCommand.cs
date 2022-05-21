@@ -1,17 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using Telegram.Bot.Types;
 
 namespace TelegramBot
 {
-    public class TakeAppCommand: ICommand
+    public class TakeAppCommand : ICommand
     {
-        private Dictionary<long, UserStates> _clientStates;
-        private int _employeeID;
-        public TakeAppCommand(Dictionary<long, UserStates> clientStates, int employeeID)
+        private Dictionary<long, UserStates> _clientStates = null;
+        
+        private int _employeeID = 0;
+
+        private IApplicationActionRepository _applicationActionRepository = null;
+        public TakeAppCommand(Dictionary<long, UserStates> clientStates, int employeeID, IApplicationActionRepository applicationActionRepository)
         {
             if (clientStates == null)
             {
@@ -19,10 +20,14 @@ namespace TelegramBot
             }
 
             _clientStates = clientStates;
-            
-            //TODO: проверка на null
+                        
             _employeeID = employeeID;
-
+            
+            if (applicationActionRepository == null)
+            {
+                throw new ArgumentNullException(nameof(applicationActionRepository));
+            }
+            _applicationActionRepository = applicationActionRepository;
         }
 
         public Task<Response> Execute(Update update)
@@ -32,22 +37,22 @@ namespace TelegramBot
 
             if (int.TryParse(messageText, out int appID))
             {
-                Program.RepositoryApplicationActions.AddNewAppAction(appID, _employeeID, 2);  //TODO: передать через конструктор
+                _applicationActionRepository.AddNewAppAction(appID, _employeeID, 2);
 
                 _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
 
                 return Task.FromResult(new Response { Message = $"Заявка № {appID} взята в работу!" });
             }
             else
-            { 
-            _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
+            {
+                _clientStates[chatId] = new UserStates { State = State.takeapp, Value = 0 };
 
-            return Task.FromResult(new Response { Message = "Введите номер заявки цифрами!" });
+                return Task.FromResult(new Response { Message = "Введите номер заявки цифрами!" });
             }
 
 
-            
+
         }
     }
-//TODO: вынести в базовый класс повторяющийся код
+    //TODO: вынести в базовый класс повторяющийся код
 }

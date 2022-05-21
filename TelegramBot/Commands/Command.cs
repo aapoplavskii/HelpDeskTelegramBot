@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
 
@@ -21,7 +17,7 @@ namespace TelegramBot
                     $"\nтекст - {Program.RepositoryApplications.FindItem(appID).Content}";
 
             return mes;
-        
+
         }
 
         public static async Task SendMessageForTechEmployee(int appID, int employeeID, ITelegramBotClient botClient, CancellationToken cancellationToken)
@@ -40,7 +36,7 @@ namespace TelegramBot
             }
         }
 
-        
+
 
     }
 }

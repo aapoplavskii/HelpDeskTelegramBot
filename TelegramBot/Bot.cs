@@ -8,6 +8,7 @@ using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
+using TelegramBot.Interfaces;
 
 namespace TelegramBot
 {
@@ -322,6 +323,7 @@ namespace TelegramBot
         {
             ICommand command = null;
             Response response = null;
+           
 
             if (update.Type != UpdateType.Message)
                 return;
@@ -362,7 +364,7 @@ namespace TelegramBot
 
                     case State.takeapp:
 
-                        command = new TakeAppCommand(_clientStates, ouremployee.ID);
+                        command = new TakeAppCommand(_clientStates, ouremployee.ID, Program.RepositoryApplicationActions);
                         response = await command.Execute(update);
 
 
@@ -655,22 +657,26 @@ namespace TelegramBot
                     Program.RepositoryEmployees.UpdateFIOEmployee(chatId, update.Message.Text.ToString());
                     Program.RepositoryEmployees.ChangeState(chatId,2);
 
+                   var buttons = Program.RepositoryPositions.GetInlineKeyboardButtons();//TODO: перепроверить получение кнопок из базы, а также алгоритм построения линий кнопок
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите должность",
                                 cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
+                                replyMarkup: new InlineKeyboardMarkup(buttons));
 
-                        InlineKeyboardButton.WithCallbackData("Медицинский сотрудник", "/медицина"),
-                        InlineKeyboardButton.WithCallbackData("Общебольничный персонал", "/общие")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("Научный сотрудник", "/наука"),
-                        InlineKeyboardButton.WithCallbackData("Медицинский инженер", "/инженер")
-                    }
-                }));
+                //    new List<List<InlineKeyboardButton>>()
+                //{
+                //    new List<InlineKeyboardButton>() {
+
+                //        InlineKeyboardButton.WithCallbackData("Медицинский сотрудник", "/медицина"),
+                //        InlineKeyboardButton.WithCallbackData("Общебольничный персонал", "/общие")
+                //    },
+                //    new List<InlineKeyboardButton>() {
+                //        InlineKeyboardButton.WithCallbackData("Научный сотрудник", "/наука"),
+                //        InlineKeyboardButton.WithCallbackData("Медицинский инженер", "/инженер")
+                //    }
+                //})
 
                     break;
 

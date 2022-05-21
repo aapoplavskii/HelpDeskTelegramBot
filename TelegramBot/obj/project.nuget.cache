@@ -1,14 +1,18 @@
 {
   "version": 2,
-  "dgSpecHash": "qeiRCWeFy3nTiPQYIxFinxHlBHnXvkJnBT1fy2kJTpJVUS7Dl2tb0aCXY+LRhjHxL9ls32Y0WKvYWGA5gg4mNQ==",
+  "dgSpecHash": "d7Rby0UhqVzKrHW4OEQ/VviPDSspF+qWlLpHIWKZaCp897yvDvru2dL12L8+3ZnKnbukiGO1mzhjUiEQQno41A==",
   "success": true,
   "projectFilePath": "C:\\WorkC#\\DZ\\TelegramBot\\TelegramBot\\TelegramBot\\TelegramBot.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\jetbrains.annotations\\2021.3.0\\jetbrains.annotations.2021.3.0.nupkg.sha512",
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\linq2db\\3.6.0\\linq2db.3.6.0.nupkg.sha512",
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\linq2db.postgresql\\3.6.0\\linq2db.postgresql.3.6.0.nupkg.sha512",
     "C:\\Users\\aa_poplavskii\\.nuget\\packages\\newtonsoft.json\\12.0.2\\newtonsoft.json.12.0.2.nupkg.sha512",
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\npgsql\\5.0.11\\npgsql.5.0.11.nupkg.sha512",
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\system.componentmodel.annotations\\4.7.0\\system.componentmodel.annotations.4.7.0.nupkg.sha512",
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\4.6.0\\system.runtime.compilerservices.unsafe.4.6.0.nupkg.sha512",
     "C:\\Users\\aa_poplavskii\\.nuget\\packages\\system.threading.channels\\6.0.0\\system.threading.channels.6.0.0.nupkg.sha512",
     "C:\\Users\\aa_poplavskii\\.nuget\\packages\\telegram.bot\\17.0.0\\telegram.bot.17.0.0.nupkg.sha512",
-    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\telegram.bot.extensions.polling\\1.0.1\\telegram.bot.extensions.polling.1.0.1.nupkg.sha512"
+    "C:\\Users\\aa_poplavskii\\.nuget\\packages\\telegram.bot.extensions.polling\\1.0.2\\telegram.bot.extensions.polling.1.0.2.nupkg.sha512"
   ],
   "logs": []
 }
