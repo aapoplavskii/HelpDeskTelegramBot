@@ -3,7 +3,6 @@ C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\TelegramBot.de
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\TelegramBot.runtimeconfig.json
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\TelegramBot.runtimeconfig.dev.json
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\TelegramBot.dll
-C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\ref\TelegramBot.dll
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\TelegramBot.pdb
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\Newtonsoft.Json.dll
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\Telegram.Bot.dll
@@ -21,3 +20,4 @@ C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\System.Threadi
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\Telegram.Bot.Extensions.Polling.dll
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\linq2db.dll
 C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\bin\Debug\net5.0\Npgsql.dll
+C:\WorkC#\DZ\TelegramBot\TelegramBot\TelegramBot\obj\Debug\net5.0\refint\TelegramBot.dll
