@@ -79,8 +79,7 @@ namespace TelegramBot
             ICommand command;
 
             Response response;
-
-            RegNewUserCommand regNewUserCommand = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates);
+                      
 
             RegNewAppCommand regNewAppCommand = new RegNewAppCommand(_repositoryApplications, _repositoryApplicationActions, _clientStates, _repositoryBuildings, _repositoryEmployees,
                 _repositoryDepartment);
@@ -108,63 +107,63 @@ namespace TelegramBot
 
                         case "/медицина":
 
-                            Command.UpdatePositionUser(1, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdatePositionUser(1, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
 
                             break;
                         case "/общие":
 
-                            Command.UpdatePositionUser(2, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdatePositionUser(2, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
 
                             break;
                         case "/наука":
 
-                            Command.UpdatePositionUser(3, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdatePositionUser(3, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
 
                             break;
                         case "/инженер":
 
-                            Command.UpdatePositionUser(4, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdatePositionUser(4, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
 
                             break;
 
                         case "/администрация":
 
-                            Command.UpdateDepartmentUser(1, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(1, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions,_clientStates);
 
                             break;
                         case "/поликлиника":
 
-                            Command.UpdateDepartmentUser(2, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(2, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
 
                             break;
                         case "/клиника":
 
-                            Command.UpdateDepartmentUser(3, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(3, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
 
                             break;
                         case "/наука_отдел":
 
-                            Command.UpdateDepartmentUser(4, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(4, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
 
                             break;
                         case "/диагностика":
 
-                            Command.UpdateDepartmentUser(5, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(5, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
 
                             break;
                         case "/кафедра":
 
-                            Command.UpdateDepartmentUser(6, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand);
+                            Command.UpdateDepartmentUser(6, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
 
                             break;
                         case "/да":
 
-                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand, true);
+                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, true, _repositoryPositions,_clientStates,_repositoryDepartment);
 
                             break;
                         case "/нет":
 
-                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, regNewUserCommand, true);
+                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, true, _repositoryPositions, _clientStates, _repositoryDepartment);
 
                             break;
                         case "/ремонт":
@@ -266,7 +265,11 @@ namespace TelegramBot
                         switch (statechat.State)
                         {
                             case State.newemployee:
-                                await regNewUserCommand.RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
+
+                                command = new RegNewUserCommand(_repositoryEmployees,_repositoryPositions, _repositoryDepartment,_clientStates,
+                                    botClient, cancellationToken, update, ouremployee);
+                                await command.Execute(update);
+                                
                                 break;
 
                             case State.newapp:
@@ -321,12 +324,28 @@ namespace TelegramBot
                                                  text: "Необходимо пройти регистрацию",
                                                  cancellationToken: cancellationToken);
                                 }
-                                await regNewUserCommand.RegNewUser(botClient, cancellationToken, chatId, update, ouremployee);
+                                command = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates,
+                                    botClient, cancellationToken, update, ouremployee);
+                                
+                                await command.Execute(update);
 
                                 break;
                             case "Подать новую заявку":
                                 {
-                                    command = new SubmitNewAppCommand(ouremployee, update, cancellationToken, botClient, regNewUserCommand, _repositoryApplications,
+                                    if (ouremployee.State != 4)
+                                    {
+                                        await botClient.SendTextMessageAsync(
+                                                     chatId: chatId,
+                                                     text: "Необходимо пройти регистрацию",
+                                                     cancellationToken: cancellationToken);
+
+                                        command = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates,
+                                        botClient, cancellationToken, update, ouremployee);
+
+                                        await command.Execute(update);
+                                    }
+
+                                    command = new SubmitNewAppCommand(ouremployee, update, cancellationToken, botClient, _repositoryApplications,
                                         _repositoryEmployees, _clientStates, regNewAppCommand);
                                     response = await command.Execute(update);
 

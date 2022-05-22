@@ -7,26 +7,36 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 namespace TelegramBot.Commands
 {
-    public class RegNewUserCommand
+    public class RegNewUserCommand:ICommand
     {
         private IRepositoryEmployees _repositoryEmployees;
         private IRepositoryAdditionalDatabases<PositionEmployee> _repositoryPositions;
         private IRepositoryAdditionalDatabases<Department> _repositoryDepartment;
         private Dictionary<long, UserStates> _clientStates;
+        private ITelegramBotClient _botclient;
+        private CancellationToken _cancellationToken;
+        private Update _update;
+        private Employee _ouremployee;
 
         public RegNewUserCommand(IRepositoryEmployees repositoryEmployees, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions,
-            IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates)
+            IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates, ITelegramBotClient botClient,
+            CancellationToken cancellationToken, Update update, Employee employee)
         {
             _repositoryEmployees = repositoryEmployees;
             _repositoryPositions = repositoryPositions;
             _repositoryDepartment = repositoryDepartment;
             _clientStates = clientStates;
+            _botclient = botClient;
+            _cancellationToken = cancellationToken;
+            _update = update;
+            _ouremployee = employee;
         }
 
-        public async Task RegNewUser(ITelegramBotClient botClient, CancellationToken cancellationToken,
-                                        long chatId, Update update, Employee ouremployee)
+        public async Task<Response> Execute(Update update)
         {
-            var stateuser = ouremployee.State;
+            var chatId = update.Message.Chat.Id;
+
+            var stateuser = _ouremployee.State;
 
             switch (stateuser)
             {
@@ -34,10 +44,10 @@ namespace TelegramBot.Commands
 
                     _repositoryEmployees.ChangeState(chatId, 1);
 
-                    await botClient.SendTextMessageAsync(
+                    await _botclient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Для регистрации введите ФИО!",
-                                cancellationToken: cancellationToken);
+                                cancellationToken: _cancellationToken);
 
                     break;
                 case 1:
@@ -47,10 +57,10 @@ namespace TelegramBot.Commands
                     //TODO: перепроверить получение кнопок из базы, а также алгоритм построения линий кнопок
                     var buttonsPositions = _repositoryPositions.GetInlineKeyboardButtons();
 
-                    await botClient.SendTextMessageAsync(
+                    await _botclient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите должность",
-                                cancellationToken: cancellationToken,
+                                cancellationToken: _cancellationToken,
                                 replyMarkup: new InlineKeyboardMarkup(buttonsPositions));
 
                     break;
@@ -60,20 +70,20 @@ namespace TelegramBot.Commands
 
                     var buttonsDepartments = _repositoryDepartment.GetInlineKeyboardButtons();
 
-                    await botClient.SendTextMessageAsync(
+                    await _botclient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите подразделение",
-                                cancellationToken: cancellationToken,
+                                cancellationToken: _cancellationToken,
                                 replyMarkup: new InlineKeyboardMarkup(buttonsDepartments));
 
                     break;
 
                 case 3:
                     _repositoryEmployees.ChangeState(chatId, 4);
-                    await botClient.SendTextMessageAsync(
+                    await _botclient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Являетесь ли Вы исполнителем заявок?",
-                                cancellationToken: cancellationToken,
+                                cancellationToken: _cancellationToken,
                                 replyMarkup: new InlineKeyboardMarkup(new List<InlineKeyboardButton>()
                 {
                         InlineKeyboardButton.WithCallbackData("Да", "/да"),
@@ -83,7 +93,7 @@ namespace TelegramBot.Commands
 
                     break;
                 case 4:
-                    await botClient.SendTextMessageAsync(
+                    await _botclient.SendTextMessageAsync(
                         chatId: chatId,
                         text: "Выберите задачу",
                         replyMarkup: new ReplyKeyboardMarkup(new List<KeyboardButton>
@@ -96,7 +106,7 @@ namespace TelegramBot.Commands
                             ResizeKeyboard = true,
                             OneTimeKeyboard = true,
                         },
-                        cancellationToken: cancellationToken);
+                        cancellationToken: _cancellationToken);
 
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
 
@@ -106,7 +116,11 @@ namespace TelegramBot.Commands
                     break;
 
             }
+
+            return new Response { Message = "Новый пользователь зарегистрирован!" };
+
         }
+               
 
     }
 }

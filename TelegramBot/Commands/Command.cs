@@ -46,29 +46,44 @@ namespace TelegramBot
         }
 
         public static async void UpdatePositionUser(int id, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, IRepositoryEmployees repositoryEmployees,
-            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, RegNewUserCommand regNewUserCommand)
+            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, 
+            IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates)
         {
             var position = repositoryPositions.FindItem(id);
 
             repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
-            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+
+            var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
+                                        botClient, cancellationToken, update, ouremployee);
+
+            await command.Execute(update);
+
         }
 
         public static async void UpdateDepartmentUser(int id, IRepositoryAdditionalDatabases<Department> repositoryDepartment, IRepositoryEmployees repositoryEmployees,
-            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, RegNewUserCommand regNewUserCommand)
+            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee,
+            IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, Dictionary<long, UserStates> clientStates)
         {
             var department = repositoryDepartment.FindItem(id);
 
             repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
-            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+
+            var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
+                                        botClient, cancellationToken, update, ouremployee);
+
+            await command.Execute(update);
 
         }
 
         public static async void UpdateExecutorEmployee(IRepositoryEmployees repositoryEmployees, Update update, CancellationToken cancellationToken, ITelegramBotClient botClient,
-            Employee ouremployee, RegNewUserCommand regNewUserCommand, bool tech)
+            Employee ouremployee, bool tech, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, 
+            Dictionary<long, UserStates> clientStates, IRepositoryAdditionalDatabases<Department> repositoryDepartment)
         {
             repositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, tech);
-            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+            var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
+                                        botClient, cancellationToken, update, ouremployee);
+
+            await command.Execute(update);
         }
 
         public static async void UpdateTypeApp(IRepositoryAdditionalDatabases<TypeApplication> repositoryTypeApplication, IApplicationRepository repositoryApplications, 

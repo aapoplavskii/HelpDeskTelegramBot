@@ -22,14 +22,13 @@ namespace TelegramBot.Commands
         private RegNewAppCommand _regNewAppCommand;
 
         public SubmitNewAppCommand(Employee employee, Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, 
-            RegNewUserCommand regNewUserCommand, IApplicationRepository repositoryApplications, IRepositoryEmployees repositoryEmployees,
+            IApplicationRepository repositoryApplications, IRepositoryEmployees repositoryEmployees,
             Dictionary<long, UserStates> clientStates, RegNewAppCommand regNewAppCommand)
         {
             _ouremployee = employee;
             _update = update;
             _cancellationToken = cancellationToken;
             _botClient = botClient;
-            _regNewUserCommand = regNewUserCommand;
             _repositoryApplications = repositoryApplications;
             _repositoryEmployees = repositoryEmployees;
             _clientStates = clientStates;
@@ -41,16 +40,7 @@ namespace TelegramBot.Commands
         public async Task<Response> Execute(Update update)
         {
             var chatId = update.Message.Chat.Id;
-
-            if (_ouremployee.State != 4)
-            {
-                await _botClient.SendTextMessageAsync(
-                             chatId: chatId,
-                             text: "Необходимо пройти регистрацию",
-                             cancellationToken: _cancellationToken);
-                await _regNewUserCommand.RegNewUser(_botClient, _cancellationToken, chatId, _update, _ouremployee);
-            }
-
+            
             var newApp = _repositoryApplications.AddNewApp(chatId, _repositoryEmployees);
 
             _clientStates[chatId] = new UserStates { State = State.newapp, Value = newApp.ID };
