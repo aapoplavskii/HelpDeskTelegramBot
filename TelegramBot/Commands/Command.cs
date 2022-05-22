@@ -1,30 +1,39 @@
-﻿using System.Threading;
+﻿using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using Telegram.Bot;
+using Telegram.Bot.Types;
+using TelegramBot.Commands;
 
 namespace TelegramBot
 {
     public static class Command
     {
-        private static string ReturnTextMessageForTechEmployee(int appID, int employeeID)
+        private static string ReturnTextMessageForTechEmployee(int appID, int employeeID, IApplicationRepository repositoryApplications,
+            IRepositoryAdditionalDatabases<Building> _repositoryBuildings, IRepositoryEmployees repositoryEmployees,
+            IRepositoryAdditionalDatabases<Department> _repositoryDepartment)
         {
-            var ouremployee = Program.RepositoryEmployees.FindItem(employeeID);
+            var ouremployee = repositoryEmployees.FindItem(employeeID);
 
-            var ourapp = Program.RepositoryApplications.FindItem(appID);
+            var ourapp = repositoryApplications.FindItem(appID);
 
-            var mes = $"Новая заявка id = {appID} от {ouremployee} ( {Program.RepositoryDepartment.FindItem(ouremployee.DepartmentID)})" +
-                    $"\n({Program.RepositoryBuildings.FindItem(ourapp.BuildingID)}, {ourapp.Room}, {ourapp.ContactTelephone})" +
-                    $"\nтекст - {Program.RepositoryApplications.FindItem(appID).Content}";
+            var mes = $"Новая заявка id = {appID} от {ouremployee} ( {_repositoryDepartment.FindItem(ouremployee.DepartmentID)})" +
+                    $"\n({_repositoryBuildings.FindItem(ourapp.BuildingID)}, {ourapp.Room}, {ourapp.ContactTelephone})" +
+                    $"\nтекст - {repositoryApplications.FindItem(appID).Content}";
 
             return mes;
 
         }
 
-        public static async Task SendMessageForTechEmployee(int appID, int employeeID, ITelegramBotClient botClient, CancellationToken cancellationToken)
+        public static async Task SendMessageForTechEmployee(int appID, int employeeID, ITelegramBotClient botClient, CancellationToken cancellationToken,
+            IApplicationRepository repositoryApplications,
+            IRepositoryAdditionalDatabases<Building> _repositoryBuildings, IRepositoryEmployees repositoryEmployees,
+            IRepositoryAdditionalDatabases<Department> _repositoryDepartment)
         {
-            var textfortechemployee = ReturnTextMessageForTechEmployee(appID, employeeID);
+            var textfortechemployee = ReturnTextMessageForTechEmployee(appID, employeeID, repositoryApplications, _repositoryBuildings, repositoryEmployees,
+                _repositoryDepartment);
 
-            var listtechemployee = Program.RepositoryEmployees.FindTechEmployee();
+            var listtechemployee = repositoryEmployees.FindTechEmployee();
 
             foreach (var item in listtechemployee)
             {
@@ -36,7 +45,60 @@ namespace TelegramBot
             }
         }
 
+        public static async void UpdatePositionUser(int id, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, IRepositoryEmployees repositoryEmployees,
+            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, RegNewUserCommand regNewUserCommand)
+        {
+            var position = repositoryPositions.FindItem(id);
 
+            repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
+            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+        }
 
+        public static async void UpdateDepartmentUser(int id, IRepositoryAdditionalDatabases<Department> repositoryDepartment, IRepositoryEmployees repositoryEmployees,
+            Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, RegNewUserCommand regNewUserCommand)
+        {
+            var department = repositoryDepartment.FindItem(id);
+
+            repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
+            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+
+        }
+
+        public static async void UpdateExecutorEmployee(IRepositoryEmployees repositoryEmployees, Update update, CancellationToken cancellationToken, ITelegramBotClient botClient,
+            Employee ouremployee, RegNewUserCommand regNewUserCommand, bool tech)
+        {
+            repositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, tech);
+            await regNewUserCommand.RegNewUser(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+        }
+
+        public static async void UpdateTypeApp(IRepositoryAdditionalDatabases<TypeApplication> repositoryTypeApplication, IApplicationRepository repositoryApplications, 
+            Update update, ITelegramBotClient botClient, CancellationToken cancellationToken, Dictionary<long, UserStates> clientStates, Employee ouremployee,
+            RegNewAppCommand regNewAppCommand, int id)
+        {
+
+            var typeApplication = repositoryTypeApplication.FindItem(id);
+
+            var newapp = repositoryApplications.FindItem(clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+
+            if (newapp != null)
+                repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
+
+            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+        }
+
+        public static async void UpdateBuildingApp(IRepositoryAdditionalDatabases<Building> repositoryBuildings, IApplicationRepository repositoryApplications,
+            Update update, ITelegramBotClient botClient, CancellationToken cancellationToken, Dictionary<long, UserStates> clientStates, Employee ouremployee,
+            RegNewAppCommand regNewAppCommand, int id)
+        {
+            var building = repositoryBuildings.FindItem(id);
+
+            var newapp = repositoryApplications.FindItem(clientStates[update.CallbackQuery.Message.Chat.Id].Value);
+
+            if (newapp != null)
+                repositoryApplications.UpdateBuildingApp(newapp.ID, building);
+
+            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+
+        }
     }
 }

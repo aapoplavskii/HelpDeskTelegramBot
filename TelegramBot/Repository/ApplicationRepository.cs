@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace TelegramBot
 {
@@ -14,17 +11,17 @@ namespace TelegramBot
         {
             return _applications.FirstOrDefault(s => s.ID == id);
         }
-                
 
-        public Application AddNewApp(long chatID)
+
+        public Application AddNewApp(long chatID, IRepositoryEmployees repositoryEmployees)
         {
-            var employee = Program.RepositoryEmployees.FindItemChatID(chatID);
+            var employee = repositoryEmployees.FindItemChatID(chatID);
 
             var newapp = new Application(employee);
             _applications.Add(newapp);
 
             return newapp;
-        
+
         }
 
         public void ChangeState(int appID, int state)
@@ -39,7 +36,7 @@ namespace TelegramBot
 
             app.TypeApplication = typeApplication;
             app.TypeApplicationID = typeApplication.ID;
-            
+
         }
         public void UpdateBuildingApp(int appID, Building building)
         {
@@ -70,6 +67,6 @@ namespace TelegramBot
             app.Content = content;
         }
         public List<Application> GetListApp() => _applications;
-        
+
     }
 }

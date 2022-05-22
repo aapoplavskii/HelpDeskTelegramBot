@@ -7,11 +7,11 @@ namespace TelegramBot
 {
     public class TakeAppCommand : ICommand
     {
-        private Dictionary<long, UserStates> _clientStates = null;
-        
-        private int _employeeID = 0;
+        private Dictionary<long, UserStates> _clientStates;
 
-        private IApplicationActionRepository _applicationActionRepository = null;
+        private int _employeeID;
+
+        private IApplicationActionRepository _applicationActionRepository;
         public TakeAppCommand(Dictionary<long, UserStates> clientStates, int employeeID, IApplicationActionRepository applicationActionRepository)
         {
             if (clientStates == null)

@@ -5,9 +5,6 @@ namespace TelegramBot
     [Table(Name = "ApplicationState")]
     public class ApplicationState : BaseEntity
     {
-        [Column(Name = "Name")]
-        public string Name { get; set; }
-
         public ApplicationState(int id, string name)
         {
             this.ID = id;

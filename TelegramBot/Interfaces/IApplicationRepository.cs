@@ -9,7 +9,7 @@ namespace TelegramBot
     public interface IApplicationRepository
     {
         public Application FindItem(int id);
-        public Application AddNewApp(long chatID);
+        public Application AddNewApp(long chatID, IRepositoryEmployees repositoryEmployees);
         public void ChangeState(int appID, int state);
         public void UpdateTypeApp(int appID, TypeApplication typeApplication);
         public void UpdateBuildingApp(int appID, Building building);

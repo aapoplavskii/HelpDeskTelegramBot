@@ -9,10 +9,10 @@ namespace TelegramBot.Commands
 {
     public class RegNewUserCommand
     {
-        private IRepositoryEmployees _repositoryEmployees = null;
-        private IRepositoryAdditionalDatabases<PositionEmployee> _repositoryPositions = null;
-        private IRepositoryAdditionalDatabases<Department> _repositoryDepartment = null;
-        private Dictionary<long, UserStates> _clientStates = null;
+        private IRepositoryEmployees _repositoryEmployees;
+        private IRepositoryAdditionalDatabases<PositionEmployee> _repositoryPositions;
+        private IRepositoryAdditionalDatabases<Department> _repositoryDepartment;
+        private Dictionary<long, UserStates> _clientStates;
 
         public RegNewUserCommand(IRepositoryEmployees repositoryEmployees, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions,
             IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates)

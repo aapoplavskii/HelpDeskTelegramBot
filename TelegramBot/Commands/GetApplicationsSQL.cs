@@ -5,7 +5,9 @@ namespace TelegramBot
 {
     public static class GetApplicationsSQL
     {
-        public static List<string> FindAll(long chatID)
+        public static List<string> FindAll(long chatID, IApplicationRepository repositoryApplications,
+            IRepositoryAdditionalDatabases<TypeApplication> repositoryTypeApplication, IRepositoryEmployees repositoryEmployees,
+            IRepositoryAdditionalDatabases<ApplicationState> repositoryApplicationState)
         {
             List<string> messageapp = new List<string>();
             List<int> listID = new List<int>();
@@ -35,13 +37,13 @@ namespace TelegramBot
                 if (ouraction != null)
                 {
 
-                        var app = Program.RepositoryApplications.FindItem(ouraction.AppID);
+                        var app = repositoryApplications.FindItem(ouraction.AppID);
                         
 
                         var message = "Заявка № - " + app.ToString()+ ", тип - " 
-                                      + Program.RepositoryTypeApplication.FindItem(app.TypeApplicationID)
+                                      + repositoryTypeApplication.FindItem(app.TypeApplicationID)
                                       + ", текст - " + app.Content
-                                      + ", состояние - " + Program.RepositoryApplicationState.FindItem(ouraction.ApplicationStateID);
+                                      + ", состояние - " + repositoryApplicationState.FindItem(ouraction.ApplicationStateID);
 
                     switch (ouraction.ApplicationStateID)
                     {
@@ -49,7 +51,7 @@ namespace TelegramBot
                                 messageapp.Add(message + ", исполнитель не назначен");
                             break;
                         case 2:
-                                messageapp.Add(message + ", исполнитель - " + Program.RepositoryEmployees.FindItem(ouraction.EmployeeID).FIO);
+                                messageapp.Add(message + ", исполнитель - " + repositoryEmployees.FindItem(ouraction.EmployeeID).FIO);
                             break;
 
                     }
@@ -58,8 +60,6 @@ namespace TelegramBot
             }
 
             }
-
-
 
             return messageapp;
 

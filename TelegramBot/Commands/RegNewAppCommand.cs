@@ -9,15 +9,23 @@ namespace TelegramBot.Commands
 {
     public class RegNewAppCommand
     {
-        private IApplicationRepository _repositoryApplications = null;
-        private IApplicationActionRepository _repositoryApplicationActions = null;
-        private Dictionary<long, UserStates> _clientStates = null;
+        private IApplicationRepository _repositoryApplications;
+        private IApplicationActionRepository _repositoryApplicationActions;
+        private Dictionary<long, UserStates> _clientStates;
+        private IRepositoryAdditionalDatabases<Building> _repositoryBuildings;
+        private IRepositoryEmployees _repositoryEmployees;
+        private IRepositoryAdditionalDatabases<Department> _repositoryDepartments;
 
-        public RegNewAppCommand(IApplicationRepository repositoryApplications, IApplicationActionRepository repositoryApplicationActions, Dictionary<long, UserStates> clientStates)
+        public RegNewAppCommand(IApplicationRepository repositoryApplications, IApplicationActionRepository repositoryApplicationActions, 
+            Dictionary<long, UserStates> clientStates, IRepositoryAdditionalDatabases<Building> repositoryBuildings, IRepositoryEmployees repositoryEmployees,
+            IRepositoryAdditionalDatabases<Department> repositoryDepartments)
         {
             _repositoryApplications = repositoryApplications;
             _repositoryApplicationActions = repositoryApplicationActions;
             _clientStates = clientStates;
+            _repositoryBuildings = repositoryBuildings;
+            _repositoryEmployees = repositoryEmployees; 
+            _repositoryDepartments = repositoryDepartments;
 
         }
         public async Task RegNewApp(ITelegramBotClient botClient, CancellationToken cancellationToken, long chatId, Update update, Employee ouremployee)
@@ -38,45 +46,25 @@ namespace TelegramBot.Commands
 
                     _repositoryApplications.ChangeState(newappID, 1);
 
+                    var buttonsActions = _repositoryApplicationActions.GetInlineKeyboardButtons();
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите тип заявки",
                                 cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
-
-                        InlineKeyboardButton.WithCallbackData("Ремонт техники", "/ремонт"),
-                        InlineKeyboardButton.WithCallbackData("Проблемы с сетью", "/сеть")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("Проблемы с МИС", "/МИС"),
-                        InlineKeyboardButton.WithCallbackData("Просто спросить/прочее", "/прочее")
-                    }
-                }));
+                                replyMarkup: new InlineKeyboardMarkup(buttonsActions));
                     break;
                 //TODO: сделать вывод всех inlinekeyboard и keyboardbutton через базу. Значения получать из таблиц и формировать List
                 case 1:
                     _repositoryApplications.ChangeState(newappID, 2);
 
+                    var buttonsBuildings = _repositoryBuildings.GetInlineKeyboardButtons();
+
                     await botClient.SendTextMessageAsync(
                                 chatId: chatId,
                                 text: "Выберите номер корпуса",
                                 cancellationToken: cancellationToken,
-                                replyMarkup: new InlineKeyboardMarkup(new List<List<InlineKeyboardButton>>()
-                {
-                    new List<InlineKeyboardButton>() {
-
-                        InlineKeyboardButton.WithCallbackData("2.1", "/2.1"),
-                        InlineKeyboardButton.WithCallbackData("2.2", "/2.2"),
-                        InlineKeyboardButton.WithCallbackData("2.3", "/2.3")
-                    },
-                    new List<InlineKeyboardButton>() {
-                        InlineKeyboardButton.WithCallbackData("3", "/3"),
-                        InlineKeyboardButton.WithCallbackData("5", "/5"),
-                        InlineKeyboardButton.WithCallbackData("7", "/7")
-                    }
-                }));
+                                replyMarkup: new InlineKeyboardMarkup(buttonsBuildings));
                     break;
                 case 2:
                     _repositoryApplications.ChangeState(newappID, 3);
@@ -134,7 +122,8 @@ namespace TelegramBot.Commands
                         cancellationToken: cancellationToken);
 
 
-                    await Command.SendMessageForTechEmployee(_clientStates[chatId].Value, ouremployee.ID, botClient, cancellationToken);
+                    await Command.SendMessageForTechEmployee(_clientStates[chatId].Value, ouremployee.ID, botClient, cancellationToken, _repositoryApplications,
+                        _repositoryBuildings, _repositoryEmployees, _repositoryDepartments);
 
                     _clientStates[chatId] = new UserStates { State = State.none, Value = 0 };
 

@@ -6,9 +6,9 @@ namespace TelegramBot
 {
     public class ApplicationRepositorySQL : IApplicationRepository
     {
-        public Application AddNewApp(long chatID)
+        public Application AddNewApp(long chatID, IRepositoryEmployees repositoryEmployees)
         {
-            var employee = Program.RepositoryEmployees.FindItemChatID(chatID);
+            var employee = repositoryEmployees.FindItemChatID(chatID);
 
             int appID = 0;
 
