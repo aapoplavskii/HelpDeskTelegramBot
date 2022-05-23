@@ -1,0 +1,110 @@
+CREATE TABLE PositionEmployee
+(
+    ID bigint NOT NULL,
+    Name character varying(255) NOT NULL,
+    CONSTRAINT Position_pkey PRIMARY KEY (ID)
+);
+CREATE TABLE Department
+(
+    ID bigint NOT NULL,
+    Name character varying(255) NOT NULL,
+    CONSTRAINT Department_pkey PRIMARY KEY (ID)
+);
+CREATE TABLE Building
+(
+    ID bigint NOT NULL,
+    Name character varying(255) NOT NULL,
+    CONSTRAINT Building_pkey PRIMARY KEY (ID)
+);
+CREATE TABLE TypeApplication
+(
+    ID bigint NOT NULL,
+    Name character varying(255) NOT NULL,
+    CONSTRAINT TypeApplication_pkey PRIMARY KEY (ID)
+);
+CREATE TABLE ApplicationState
+(
+    ID bigint NOT NULL,
+    Name character varying(255) NOT NULL,
+    CONSTRAINT ApplicationState_pkey PRIMARY KEY (ID)
+);
+
+CREATE TABLE Employee
+(
+    ID bigint NOT NULL,
+	FIO character varying(255),
+    PositionEmployeeID bigint,
+    DepartmentID bigint,
+	ChatID bigint NOT NULL,
+	State bigint NOT NULL,
+	isExecutor bool,
+    CONSTRAINT Employee_pkey PRIMARY KEY (ID),
+	CONSTRAINT Employee_fkey_positions FOREIGN KEY (PositionEmployeeID) REFERENCES PositionEmployee (ID),
+	CONSTRAINT Employee_fkey_departments FOREIGN KEY (DepartmentID) REFERENCES Department (ID),
+	CONSTRAINT Employee_fkey_employee FOREIGN KEY (EmployeeID) REFERENCES Employee (ID)
+);
+
+
+
+CREATE TABLE Application
+(
+    ID bigint NOT NULL,
+    TypeApplicationID bigint,
+	BuildingID bigint,
+	Room character varying(255),
+	ContactTelephone character varying(255),
+	Content character varying(255),
+	IsDelete bool,
+	statewrite bigint,
+    CONSTRAINT Application_pkey PRIMARY KEY (ID),
+	CONSTRAINT Application_fkey_typeapp FOREIGN KEY (TypeApplicationID) REFERENCES TypeApplication (ID),
+	CONSTRAINT Application_fkey_buildings FOREIGN KEY (BuildingID) REFERENCES Building (ID)
+);
+CREATE TABLE ApplicationAction
+(
+    ID bigint NOT NULL,
+    ApplicationID bigint NOT NULL,
+    EmployeeID bigint NOT NULL,
+    ApplicationStateID bigint NOT NULL,
+	Comment character varying(255),
+	DateWriteRecord Time NOT NULL,  
+    CONSTRAINT ApplicationAction_pkey PRIMARY KEY (ID),
+	CONSTRAINT ApplicationAction_fkey_application FOREIGN KEY (ApplicationID) REFERENCES Application (ID),
+	CONSTRAINT ApplicationAction_fkey_employee FOREIGN KEY (EmployeeID) REFERENCES Employee (ID),
+	CONSTRAINT ApplicationAction_fkey_applicationstate FOREIGN KEY (ApplicationStateID) REFERENCES ApplicationState (ID)
+);
+
+INSERT INTO PositionEmployee VALUES 
+(1,'Медицинский сотрудник'),
+(2,'Общебольничный персонал'),
+(3,'Научный сотрудник'),
+(4,'Медицинский инженер');
+
+INSERT INTO Department VALUES 
+(1,'Администрация'),
+(2,'Поликлиника'),
+(3,'Клиника'),
+(4,'Наука'),
+(5,'Диагностика'),
+(6,'Кафедра');
+
+INSERT INTO Building VALUES 
+(1,'2.1'),
+(2,'2.2'),
+(3,'2.3'),
+(4,'3'),
+(5,'5'),
+(6,'7');
+
+INSERT INTO TypeApplication VALUES 
+(1,'Ремонт техники'),
+(2,'Проблемы с сетью'),
+(3,'Проблемы с МИС'),
+(4,'Просто спросить/прочее');
+
+INSERT INTO ApplicationState VALUES 
+(1,'подана'),
+(2,'взята в работу'),
+(3,'отклонена'),
+(4,'исполнена');
+

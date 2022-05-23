@@ -37,16 +37,16 @@ namespace TelegramBot
 
             using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
             {
-                buttons = db.GetTable<T>().Select(x => x).ToList();
+                buttons = db.GetTable<T>().Select(x => x).OrderBy( x => x.ID).ToList();
             }
                         
-            var rowcount = (int)Math.Ceiling(buttons.Count() / 2f);
+            var rowcount = (int)Math.Ceiling(buttons.Count()-1 / 2f);
             
             for (int i = 0; i < rowcount; i++)
             {
                 var list = new List<InlineKeyboardButton>();
 
-                list.AddRange(buttons.Skip(i*2).Take(2).Select(i => InlineKeyboardButton.WithCallbackData(i.Name, i.Name)));
+                list.AddRange(buttons.Skip(1+i*2).Take(2).Select(i => InlineKeyboardButton.WithCallbackData(i.Name, "/" + i.Name)));
 
                 result.Add(list);
             }

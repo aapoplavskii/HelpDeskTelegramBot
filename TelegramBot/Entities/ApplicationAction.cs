@@ -4,8 +4,12 @@ using System;
 namespace TelegramBot
 {
     [Table(Name = "ApplicationAction")]
-    public class ApplicationAction : BaseEntity
+    public class ApplicationAction 
     {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public int ID { get; set; }
+
         [Column(Name = "ApplicationID")]
         public int AppID { get; set; }
 
@@ -22,24 +26,7 @@ namespace TelegramBot
         [Column(Name = "DateWriteRecord")]
         public DateTime DateWriteRecord { get; set; }
 
-        //TODO: перепроверить зачем нужен конструктор 
-
-        //public ApplicationAction(int appid, int employeeid, int stateID)
-        //{
-        //    AppID = appid;
-        //    EmployeeID = employeeid;
-        //    ApplicationState = Program.RepositoryApplicationState.FindItem(1);
-        //    ApplicationStateID = stateID;
-        //    DateWriteRecord = DateTime.Now;
-
-
-        //}
-
         public ApplicationAction() { }
-
-
-
-
 
     }
 }

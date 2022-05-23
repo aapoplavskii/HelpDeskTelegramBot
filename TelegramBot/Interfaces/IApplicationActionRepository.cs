@@ -16,7 +16,6 @@ namespace TelegramBot
 
         public List<ApplicationAction> GetListApp();
 
-        public List<List<InlineKeyboardButton>> GetInlineKeyboardButtons();
-
+        
     }
 }

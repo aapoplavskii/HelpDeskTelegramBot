@@ -4,8 +4,11 @@ using System;
 namespace TelegramBot
 {
     [Table(Name = "Application")]
-    public class Application : BaseEntity
+    public class Application
     {
+        [PrimaryKey]
+        [Column(Name = "ID")]
+        public int ID { get; set; }
         public TypeApplication TypeApplication { get; set; }
 
         [Column(Name = "TypeApplicationID")]

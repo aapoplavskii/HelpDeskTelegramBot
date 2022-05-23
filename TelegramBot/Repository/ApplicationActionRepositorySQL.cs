@@ -59,30 +59,6 @@ namespace TelegramBot
             }
         }
 
-        public List<List<InlineKeyboardButton>> GetInlineKeyboardButtons()
-        {
-            var result = new List<List<InlineKeyboardButton>>();
-
-            var buttons = new List<ApplicationAction>();
-
-            using (var db = new LinqToDB.Data.DataConnection(LinqToDB.ProviderName.PostgreSQL, Config.SqlConnectionString))
-            {
-                buttons = db.GetTable<ApplicationAction>().Select(x => x).ToList();
-            }
-
-            var rowcount = (int)Math.Ceiling(buttons.Count() / 2f);
-
-            for (int i = 0; i < rowcount; i++)
-            {
-                var list = new List<InlineKeyboardButton>();
-
-                list.AddRange(buttons.Skip(i * 2).Take(2).Select(i => InlineKeyboardButton.WithCallbackData(i.Name, i.Name)));
-
-                result.Add(list);
-            }
-
-            return result;
-
-        }
+        
     }
 }

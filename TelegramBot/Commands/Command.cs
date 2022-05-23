@@ -47,14 +47,14 @@ namespace TelegramBot
 
         public static async void UpdatePositionUser(int id, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, IRepositoryEmployees repositoryEmployees,
             Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee, 
-            IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates)
+            IRepositoryAdditionalDatabases<Department> repositoryDepartment, Dictionary<long, UserStates> clientStates, long chatId)
         {
             var position = repositoryPositions.FindItem(id);
 
             repositoryEmployees.UpdatePositionEmployee(update.CallbackQuery.Message.Chat.Id, position);
 
             var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
-                                        botClient, cancellationToken, update, ouremployee);
+                                        botClient, cancellationToken, update, ouremployee, chatId);
 
             await command.Execute(update);
 
@@ -62,14 +62,14 @@ namespace TelegramBot
 
         public static async void UpdateDepartmentUser(int id, IRepositoryAdditionalDatabases<Department> repositoryDepartment, IRepositoryEmployees repositoryEmployees,
             Update update, CancellationToken cancellationToken, ITelegramBotClient botClient, Employee ouremployee,
-            IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, Dictionary<long, UserStates> clientStates)
+            IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, Dictionary<long, UserStates> clientStates, long chatId)
         {
             var department = repositoryDepartment.FindItem(id);
 
             repositoryEmployees.UpdateDepartmentEmployee(update.CallbackQuery.Message.Chat.Id, department);
 
             var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
-                                        botClient, cancellationToken, update, ouremployee);
+                                        botClient, cancellationToken, update, ouremployee, chatId);
 
             await command.Execute(update);
 
@@ -77,18 +77,19 @@ namespace TelegramBot
 
         public static async void UpdateExecutorEmployee(IRepositoryEmployees repositoryEmployees, Update update, CancellationToken cancellationToken, ITelegramBotClient botClient,
             Employee ouremployee, bool tech, IRepositoryAdditionalDatabases<PositionEmployee> repositoryPositions, 
-            Dictionary<long, UserStates> clientStates, IRepositoryAdditionalDatabases<Department> repositoryDepartment)
+            Dictionary<long, UserStates> clientStates, IRepositoryAdditionalDatabases<Department> repositoryDepartment, long chatId)
         {
             repositoryEmployees.UpdateIsExecutorEmployee(update.CallbackQuery.Message.Chat.Id, tech);
             var command = new RegNewUserCommand(repositoryEmployees, repositoryPositions, repositoryDepartment, clientStates,
-                                        botClient, cancellationToken, update, ouremployee);
+                                        botClient, cancellationToken, update, ouremployee, chatId);
 
             await command.Execute(update);
         }
 
         public static async void UpdateTypeApp(IRepositoryAdditionalDatabases<TypeApplication> repositoryTypeApplication, IApplicationRepository repositoryApplications, 
             Update update, ITelegramBotClient botClient, CancellationToken cancellationToken, Dictionary<long, UserStates> clientStates, Employee ouremployee,
-            RegNewAppCommand regNewAppCommand, int id)
+            int id, IRepositoryEmployees repositoryEmployees, IApplicationActionRepository repositoryApplicationActions,
+            IRepositoryAdditionalDatabases<Department> repositoryDepartments, IRepositoryAdditionalDatabases<Building> repositoryBuildings, long chatId)
         {
 
             var typeApplication = repositoryTypeApplication.FindItem(id);
@@ -98,12 +99,16 @@ namespace TelegramBot
             if (newapp != null)
                 repositoryApplications.UpdateTypeApp(newapp.ID, typeApplication);
 
-            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+            var command = new SubmitNewAppCommand(ouremployee, cancellationToken, botClient, repositoryApplications, repositoryEmployees,
+                clientStates, repositoryTypeApplication, repositoryDepartments, repositoryBuildings, chatId, repositoryApplicationActions);
+
+            await command.Execute(update);
         }
 
         public static async void UpdateBuildingApp(IRepositoryAdditionalDatabases<Building> repositoryBuildings, IApplicationRepository repositoryApplications,
             Update update, ITelegramBotClient botClient, CancellationToken cancellationToken, Dictionary<long, UserStates> clientStates, Employee ouremployee,
-            RegNewAppCommand regNewAppCommand, int id)
+            int id, IRepositoryEmployees repositoryEmployees, IApplicationActionRepository repositoryApplicationActions,
+            IRepositoryAdditionalDatabases<Department> repositoryDepartments, long chatId, IRepositoryAdditionalDatabases<TypeApplication> repositoryTypeApplication)
         {
             var building = repositoryBuildings.FindItem(id);
 
@@ -112,7 +117,10 @@ namespace TelegramBot
             if (newapp != null)
                 repositoryApplications.UpdateBuildingApp(newapp.ID, building);
 
-            await regNewAppCommand.RegNewApp(botClient, cancellationToken, update.CallbackQuery.Message.Chat.Id, update, ouremployee);
+            var command = new SubmitNewAppCommand(ouremployee, cancellationToken, botClient, repositoryApplications, repositoryEmployees,
+                clientStates, repositoryTypeApplication, repositoryDepartments, repositoryBuildings, chatId, repositoryApplicationActions);
+
+            await command.Execute(update);
 
         }
     }

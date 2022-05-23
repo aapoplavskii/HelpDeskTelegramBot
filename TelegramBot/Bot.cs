@@ -79,15 +79,15 @@ namespace TelegramBot
             ICommand command;
 
             Response response;
-                      
 
-            RegNewAppCommand regNewAppCommand = new RegNewAppCommand(_repositoryApplications, _repositoryApplicationActions, _clientStates, _repositoryBuildings, _repositoryEmployees,
-                _repositoryDepartment);
-
+            long chatId;
+          
             switch (update.Type)
             {
 
                 case UpdateType.CallbackQuery:
+
+                    chatId = update.CallbackQuery.Message.Chat.Id;
 
                     ouremployee = _repositoryEmployees.FindItemChatID(update.CallbackQuery.Message.Chat.Id);
 
@@ -105,126 +105,127 @@ namespace TelegramBot
                     {
 
 
-                        case "/медицина":
+                        case "/Медицинский сотрудник":
 
-                            Command.UpdatePositionUser(1, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
-
-                            break;
-                        case "/общие":
-
-                            Command.UpdatePositionUser(2, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
+                            Command.UpdatePositionUser(1, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates,
+                                chatId);
 
                             break;
-                        case "/наука":
+                        case "/Общебольничный персонал":
 
-                            Command.UpdatePositionUser(3, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
-
-                            break;
-                        case "/инженер":
-
-                            Command.UpdatePositionUser(4, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates);
+                            Command.UpdatePositionUser(2, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates, chatId);
 
                             break;
+                        case "/Научный сотрудник":
 
-                        case "/администрация":
-
-                            Command.UpdateDepartmentUser(1, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions,_clientStates);
-
-                            break;
-                        case "/поликлиника":
-
-                            Command.UpdateDepartmentUser(2, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
+                            Command.UpdatePositionUser(3, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates, chatId);
 
                             break;
-                        case "/клиника":
+                        case "/Медицинский инженер":
 
-                            Command.UpdateDepartmentUser(3, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
-
-                            break;
-                        case "/наука_отдел":
-
-                            Command.UpdateDepartmentUser(4, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
+                            Command.UpdatePositionUser(4, _repositoryPositions, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryDepartment, _clientStates, chatId);
 
                             break;
-                        case "/диагностика":
 
-                            Command.UpdateDepartmentUser(5, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
+                        case "/Администрация":
+
+                            Command.UpdateDepartmentUser(1, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions,_clientStates, chatId);
 
                             break;
-                        case "/кафедра":
+                        case "/Поликлиника":
 
-                            Command.UpdateDepartmentUser(6, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates);
+                            Command.UpdateDepartmentUser(2, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates, chatId);
+
+                            break;
+                        case "/Клиника":
+
+                            Command.UpdateDepartmentUser(3, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates, chatId);
+
+                            break;
+                        case "/Наука":
+
+                            Command.UpdateDepartmentUser(4, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates, chatId);
+
+                            break;
+                        case "/Диагностика":
+
+                            Command.UpdateDepartmentUser(5, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates, chatId);
+
+                            break;
+                        case "/Кафедра":
+
+                            Command.UpdateDepartmentUser(6, _repositoryDepartment, _repositoryEmployees, update, cancellationToken, botClient, ouremployee, _repositoryPositions, _clientStates, chatId);
 
                             break;
                         case "/да":
 
-                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, true, _repositoryPositions,_clientStates,_repositoryDepartment);
+                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, true, _repositoryPositions,_clientStates,_repositoryDepartment, chatId);
 
                             break;
                         case "/нет":
 
-                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, true, _repositoryPositions, _clientStates, _repositoryDepartment);
+                            Command.UpdateExecutorEmployee(_repositoryEmployees, update, cancellationToken, botClient, ouremployee, false, _repositoryPositions, _clientStates, _repositoryDepartment, chatId);
 
                             break;
-                        case "/ремонт":
+                        case "/Ремонт техники":
 
-                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 1);
-
-                            break;
-                        case "/сеть":
-
-                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 2);
+                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 1,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, _repositoryBuildings, chatId);
 
                             break;
-                        case "/МИС":
+                        case "/Проблемы с сетью":
 
-                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 3);
+                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 2,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, _repositoryBuildings, chatId);
 
                             break;
-                        case "/прочее":
+                        case "/Проблемы с МИС":
 
-                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 4);
+                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 3,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, _repositoryBuildings, chatId);
+
+                            break;
+                        case "/Просто спросить/прочее":
+
+                            Command.UpdateTypeApp(_repositoryTypeApplication, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 4,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, _repositoryBuildings, chatId);
 
                             break;
 
                         case "/2.1":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 1);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 1,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
                         case "/2.2":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 2);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 2,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
                         case "/2.3":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 3);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 3,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
                         case "/3":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 4);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 4,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
                         case "/5":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                regNewAppCommand, 5);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 5,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
                         case "/7":
 
-                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee,
-                                 regNewAppCommand, 6);
+                            Command.UpdateBuildingApp(_repositoryBuildings, _repositoryApplications, update, botClient, cancellationToken, _clientStates, ouremployee, 6,
+                                _repositoryEmployees, _repositoryApplicationActions, _repositoryDepartment, chatId, _repositoryTypeApplication);
 
                             break;
 
@@ -242,7 +243,7 @@ namespace TelegramBot
                     if (update.Message!.Type != MessageType.Text)
                         return;
 
-                    var chatId = update.Message.Chat.Id;
+                    chatId = update.Message.Chat.Id;
 
                     ouremployee = _repositoryEmployees.FindItemChatID(chatId);
 
@@ -259,7 +260,7 @@ namespace TelegramBot
 
                     var messageText = update.Message.Text;
 
-                    //TODO: вынести все команды в отдельные классы
+                    //TODO: вынести все команды в отдельные классы и попробовать реализовать switch через паттерн CommandFactory
                     if (statechat.State != State.none)
                     {
                         switch (statechat.State)
@@ -267,14 +268,17 @@ namespace TelegramBot
                             case State.newemployee:
 
                                 command = new RegNewUserCommand(_repositoryEmployees,_repositoryPositions, _repositoryDepartment,_clientStates,
-                                    botClient, cancellationToken, update, ouremployee);
+                                    botClient, cancellationToken, update, ouremployee, chatId);
                                 await command.Execute(update);
                                 
                                 break;
 
                             case State.newapp:
 
-                                await regNewAppCommand.RegNewApp(botClient, cancellationToken, chatId, update, ouremployee);
+                                command = new SubmitNewAppCommand(ouremployee, cancellationToken, botClient, _repositoryApplications, _repositoryEmployees,
+                                    _clientStates, _repositoryTypeApplication, _repositoryDepartment, _repositoryBuildings, chatId, _repositoryApplicationActions);
+                                await command.Execute(update);
+
                                 break;
 
                             case State.takeapp:
@@ -325,7 +329,7 @@ namespace TelegramBot
                                                  cancellationToken: cancellationToken);
                                 }
                                 command = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates,
-                                    botClient, cancellationToken, update, ouremployee);
+                                    botClient, cancellationToken, update, ouremployee, chatId);
                                 
                                 await command.Execute(update);
 
@@ -340,19 +344,16 @@ namespace TelegramBot
                                                      cancellationToken: cancellationToken);
 
                                         command = new RegNewUserCommand(_repositoryEmployees, _repositoryPositions, _repositoryDepartment, _clientStates,
-                                        botClient, cancellationToken, update, ouremployee);
+                                        botClient, cancellationToken, update, ouremployee, chatId);
 
                                         await command.Execute(update);
                                     }
 
-                                    command = new SubmitNewAppCommand(ouremployee, update, cancellationToken, botClient, _repositoryApplications,
-                                        _repositoryEmployees, _clientStates, regNewAppCommand);
-                                    response = await command.Execute(update);
-
-                                    await botClient.SendTextMessageAsync(
-                                        chatId: chatId,
-                                        text: response.Message,
-                                        cancellationToken: cancellationToken);
+                                    command = new SubmitNewAppCommand(ouremployee, cancellationToken, botClient, _repositoryApplications,
+                                        _repositoryEmployees, _clientStates, _repositoryTypeApplication, _repositoryDepartment, _repositoryBuildings, chatId,
+                                        _repositoryApplicationActions);
+                                    await command.Execute(update);
+                                                                      
 
                                     break;
                                 }
